@@ -6,4 +6,14 @@
 
 # ✨ Setup
 
-1. run `npx create-next-app@latest --typescript`
+1. run `npx create-next-app@latest --typescript` and delete `home.module.css` and `document.tsx`
+2. run `npm install -D tailwindcss postcss autoprefixer`
+3. run `npx tailwindcss init -p` (If already exist the `tailwind.config.ts`, then skip)
+4. and put the specific path into `tailwind.config.ts` like `"./pages/**/*.{js,ts,jsx,tsx,mdx}"`
+    - however everything already done when we created with `npx create-next-app@latest --typescript` command
+5. fixed `../styles/globals.css` file as below
+    ```
+    @tailwind base;
+    @tailwind components;
+    @tailwind utilities;
+    ```

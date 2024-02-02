@@ -12,6 +12,7 @@
 4. and put the specific path into `tailwind.config.ts` like `"./pages/**/*.{js,ts,jsx,tsx,mdx}"`
     - however everything already done when we created with `npx create-next-app@latest --typescript` command
 5. fixed `../styles/globals.css` file as below
+
     ```
     @tailwind base;
     @tailwind components;

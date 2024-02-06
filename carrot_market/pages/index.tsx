@@ -1,6 +1,14 @@
 export default function Home() {
     return (
-        <div className="flex-col min-h-screen px-20 py-20 space-y-10 bg-slate-400">
+        <div
+            className="
+                flex-col 
+                min-h-screen
+                px-20
+                py-20
+                space-y-10
+                bg-slate-400"
+        >
             <div
                 className="
                     p-6 
@@ -13,22 +21,37 @@ export default function Home() {
                     sm:bg-red-400 
                     rounded-3xl"
             >
-                <span className="text-3xl font-semibold ">Select Item</span>
+                <span className="text-3xl font-semibold">Select Item</span>
 
                 <ul>
                     {[1, 2, 3, 4].map((i) => (
-                        <div key={i} className="flex justify-between my-2 ">
+                        <div key={i} className="flex justify-between my-2">
                             <span className="text-gray-500">Grey Chair</span>
                             <span className="font-semibold ">$170</span>
                         </div>
                     ))}
                 </ul>
 
-                <div className="flex justify-between pt-2 mt-2 border-t-2 border-dashed ">
+                <div className="flex justify-between pt-2 mt-2 border-t-2 border-dashed">
                     <span>Total</span>
                     <span className="font-semibold ">$970</span>
                 </div>
-                <button className="block w-2/4 p-3 mx-auto mt-5 text-center text-white transition-all bg-blue-500 rounded-xl hover:bg-blue-600 active:bg-yellow-400 focus:text-red-400">
+                <button
+                    className="
+                            block
+                            w-2/4
+                            p-3
+                            mx-auto
+                            mt-5
+                            text-center
+                            text-white
+                            transition-all
+                            bg-blue-500
+                            rounded-xl 
+                            hover:bg-blue-600
+                            active:bg-yellow-400
+                            focus:text-red-400"
+                >
                     Checkout
                 </button>
             </div>
@@ -45,7 +68,13 @@ export default function Home() {
                         </div>
                         <div
                             id="avatar"
-                            className="w-24 h-24 transition-colors bg-gray-400 rounded-full group-hover:bg-red-200"
+                            className="
+                                w-24
+                                h-24
+                                transition-colors
+                                bg-gray-400
+                                rounded-full
+                                group-hover:bg-red-200"
                         ></div>
                         <div className="flex flex-col items-center">
                             <span className="text-sm text-gray-500">Spent</span>
@@ -78,16 +107,70 @@ export default function Home() {
                     <span className="text-xs text-gray-500 ">Chair</span>
                     <div className="flex items-center justify-between mt-3 mb-5">
                         <div className="space-x-2">
-                            <button className="w-5 h-5 transition-all bg-yellow-500 rounded-full focus:ring-2 ring-yellow-500 ring-offset-2"></button>
-                            <button className="w-5 h-5 transition-all bg-indigo-500 rounded-full focus:ring-2 ring-indigo-500 ring-offset-2"></button>
-                            <button className="w-5 h-5 transition-all bg-teal-500 rounded-full focus:ring-2 ring-teal-500 ring-offset-2"></button>
+                            <button
+                                className="
+                                        w-5
+                                        h-5
+                                        transition-all
+                                        bg-yellow-500
+                                        rounded-full
+                                        focus:ring-2
+                                        ring-yellow-500
+                                        ring-offset-2"
+                            ></button>
+                            <button
+                                className="
+                                        w-5
+                                        h-5
+                                        transition-all
+                                        bg-indigo-500
+                                        rounded-full
+                                        focus:ring-2
+                                        ring-indigo-500
+                                        ring-offset-2"
+                            ></button>
+                            <button
+                                className="
+                                        w-5
+                                        h-5
+                                        transition-all
+                                        bg-teal-500
+                                        rounded-full
+                                        focus:ring-2
+                                        ring-teal-500
+                                        ring-offset-2"
+                            ></button>
                         </div>
                         <div className="flex items-center space-x-5">
-                            <button className="flex items-center justify-center p-3 text-xl text-gray-500 bg-blue-200 rounded-lg aspect-square w-11">
+                            <button
+                                className="
+                                        flex
+                                        items-center
+                                        justify-center
+                                        p-3
+                                        text-xl
+                                        text-gray-500
+                                        bg-blue-200
+                                        rounded-lg
+                                        aspect-square
+                                        w-11"
+                            >
                                 -
                             </button>
                             <span>1</span>
-                            <button className="flex items-center justify-center p-3 text-xl text-gray-500 bg-blue-200 rounded-lg aspect-square w-11">
+                            <button
+                                className="
+                                        flex
+                                        items-center
+                                        justify-center
+                                        p-3
+                                        text-xl
+                                        text-gray-500
+                                        bg-blue-200
+                                        rounded-lg
+                                        aspect-square
+                                        w-11"
+                            >
                                 +
                             </button>
                         </div>

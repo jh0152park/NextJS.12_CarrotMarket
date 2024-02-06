@@ -1,25 +1,31 @@
 export default function Home() {
     return (
         <div
+            id="container"
             className="
                 flex-col 
                 min-h-screen
                 px-20
                 py-20
-                space-y-10
-                bg-slate-400"
+                bg-slate-400
+                grid
+                gap-10
+                xl:grid-cols-3
+                lg:grid-cols-2
+                xl:place-content-center
+                "
         >
             <div
+                id="first-div"
                 className="
                     p-6 
                     bg-white 
-                    shadow-xl 
-                    2xl:bg-pink-400 
-                    xl:bg-yellow-400 
-                    lg:bg-indigo-400 
-                    md:bg-teal-400 
-                    sm:bg-red-400 
-                    rounded-3xl"
+                    shadow-xl
+                    rounded-3xl
+                    flex
+                    flex-col
+                    justify-between
+                    "
             >
                 <span className="text-3xl font-semibold">Select Item</span>
 
@@ -56,8 +62,11 @@ export default function Home() {
                 </button>
             </div>
 
-            <div className="overflow-hidden bg-white shadow-xl rounded-2xl group">
-                <div className="p-6 bg-blue-500 pb-14">
+            <div
+                id="second-div"
+                className="overflow-hidden bg-white shadow-xl rounded-2xl group"
+            >
+                <div className="p-6 portrait:bg-blue-500 landscape:bg-teal-400 pb-14 xl:pb-40">
                     <span className="text-2xl text-white">Profile</span>
                 </div>
                 <div className="relative p-6 bg-white rounded-3xl -top-5">
@@ -91,7 +100,16 @@ export default function Home() {
                 </div>
             </div>
 
-            <div className="p-10 bg-white shadow-xl rounded-2xl">
+            <div
+                id="last-div"
+                className="
+                    p-10
+                    bg-white
+                    shadow-xl
+                    rounded-2xl
+                    lg:col-span-2
+                    xl:col-span-1"
+            >
                 <div className="flex items-center justify-between mb-5">
                     <span>←</span>
                     <div className="space-x-3 ">

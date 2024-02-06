@@ -95,17 +95,30 @@ export default function Home() {
         //     </div>
         // </div>
 
-        <form className="flex flex-col p-5 space-y-2 ">
+        <div className="flex flex-col p-5 space-y-2">
+            <details className="select-none open:text-white open:bg-indigo-400 ">
+                <summary className="cursor-pointer">
+                    What is my favorige food?
+                </summary>
+                <span className="selection:bg-indigo-300 selection:text-white">
+                    Pizza🍕
+                </span>
+            </details>
+
+            <ul className="list-disc marker:text-teal-500">
+                <li>HI</li>
+                <li>HI</li>
+                <li>HI</li>
+            </ul>
+
             <input
-                type="text"
-                required
-                placeholder="Username"
-                className="p-1 border border-gray-400 rounded-lg peer"
+                type="file"
+                className="p-3 file:hover:bg-yellow-400 file:cursor-pointer file:transition-colors file:border-0 file:rounded-xl file:px-5 file:text-white file:font-bold file:bg-purple-400"
             />
-            <span className="hidden peer-invalid:block peer-invalid:text-red-500">
-                This isput is invalid
-            </span>
-            <input type="submit" value="Login" className="" />
-        </form>
+
+            <p className="first-letter:text-7xl first-letter:text-yellow-400">
+                This is some text
+            </p>
+        </div>
     );
 }

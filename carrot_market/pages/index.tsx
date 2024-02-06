@@ -1,48 +1,42 @@
 export default function Home() {
     return (
-        <div className="bg-slate-400 py-20 px-20 flex-col space-y-10 min-h-screen">
-            <div className="bg-white p-6 rounded-3xl shadow-xl">
-                <span className="font-semibold text-3xl">Select Item</span>
-                <div className=" flex justify-between my-2">
+        <div className="flex-col min-h-screen px-20 py-20 space-y-10 bg-slate-400">
+            <div className="p-6 bg-white shadow-xl rounded-3xl">
+                <span className="text-3xl font-semibold">Select Item</span>
+                <div className="flex justify-between my-2 ">
                     <span className="text-gray-500">Grey Chair</span>
-                    <span className=" font-semibold">$170</span>
+                    <span className="font-semibold ">$170</span>
                 </div>
-                <div className=" flex justify-between ">
+                <div className="flex justify-between ">
                     <span className="text-gray-500">Tooly Table</span>
-                    <span className=" font-semibold">$800</span>
+                    <span className="font-semibold ">$800</span>
                 </div>
-                <div className=" mt-2 pt-2 border-t-2 border-dashed flex justify-between">
+                <div className="flex justify-between pt-2 mt-2 border-t-2 border-dashed ">
                     <span>Total</span>
-                    <span className=" font-semibold">$970</span>
+                    <span className="font-semibold ">$970</span>
                 </div>
-                <button
-                    className="mt-5 bg-blue-500 text-white p-3 text-center rounded-xl w-2/4 mx-auto
-                    hover:bg-blue-300
-                    active:bg-yellow-400
-                    focus:text-red-300
-                "
-                >
+                <button className="w-2/4 p-3 mx-auto mt-5 text-center text-white bg-blue-500 rounded-xl hover:bg-blue-300 active:bg-yellow-400 focus:text-red-400 ">
                     Checkout
                 </button>
             </div>
-            <div className="bg-white overflow-hidden rounded-2xl shadow-xl">
-                <div className="bg-blue-500 p-6 pb-14">
-                    <span className="text-white text-2xl">Profile</span>
+            <div className="overflow-hidden bg-white shadow-xl rounded-2xl">
+                <div className="p-6 bg-blue-500 pb-14">
+                    <span className="text-2xl text-white">Profile</span>
                 </div>
-                <div className=" rounded-3xl p-6 relative -top-5 bg-white">
-                    <div className="flex relative -mt-16 justify-between items-end">
+                <div className="relative p-6 bg-white rounded-3xl -top-5">
+                    <div className="relative flex items-end justify-between -mt-16">
                         <div className="flex flex-col items-center">
                             <span className="text-sm text-gray-500">Order</span>
-                            <span className=" font-medium">$340</span>
+                            <span className="font-medium ">$340</span>
                         </div>
-                        <div className="h-24 w-24 bg-red-400 rounded-full"></div>
+                        <div className="w-24 h-24 bg-red-400 rounded-full"></div>
                         <div className="flex flex-col items-center">
                             <span className="text-sm text-gray-500">Spent</span>
-                            <span className=" font-medium">$2,310</span>
+                            <span className="font-medium ">$2,310</span>
                         </div>
                     </div>
 
-                    <div className=" relative flex flex-col items-center mt-10 -mb-5">
+                    <div className="relative flex flex-col items-center mt-10 -mb-5 ">
                         <span className="text-xl font-medium">Tony Molloy</span>
                         <span className="text-sm text-gray-500">
                             New York, USA
@@ -50,41 +44,41 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <div className="bg-white p-10 rounded-2xl shadow-xl">
-                <div className="flex justify-between items-center mb-5">
+            <div className="p-10 bg-white shadow-xl rounded-2xl">
+                <div className="flex items-center justify-between mb-5">
                     <span>←</span>
-                    <div className=" space-x-3">
+                    <div className="space-x-3 ">
                         <span>⭐️ 4.9</span>
-                        <span className=" shadow-xl p-2 rounded-md">❤️</span>
+                        <span className="p-2 rounded-md shadow-xl ">❤️</span>
                     </div>
                 </div>
 
-                <div className="bg-zinc-400 h-72 mb-5" />
+                <div className="mb-5 bg-zinc-400 h-72" />
 
                 <div className="flex flex-col">
-                    <span className=" font-medium  text-lg">Swoon Lounge</span>
-                    <span className=" text-xs text-gray-500 ">Chair</span>
-                    <div className="mt-3 mb-5 flex justify-between items-center">
+                    <span className="text-lg font-medium ">Swoon Lounge</span>
+                    <span className="text-xs text-gray-500 ">Chair</span>
+                    <div className="flex items-center justify-between mt-3 mb-5">
                         <div className="space-x-2">
-                            <button className="w-5 h-5 rounded-full bg-yellow-300"></button>
-                            <button className="w-5 h-5 rounded-full bg-indigo-300"></button>
-                            <button className="w-5 h-5 rounded-full bg-teal-300"></button>
+                            <button className="w-5 h-5 transition-all bg-yellow-500 rounded-full focus:ring-2 ring-yellow-500 ring-offset-2"></button>
+                            <button className="w-5 h-5 transition-all bg-indigo-500 rounded-full focus:ring-2 ring-indigo-500 ring-offset-2"></button>
+                            <button className="w-5 h-5 transition-all bg-teal-500 rounded-full focus:ring-2 ring-teal-500 ring-offset-2"></button>
                         </div>
                         <div className="flex items-center space-x-5">
-                            <button className="p-3 rounded-lg bg-blue-200 flex justify-center items-center aspect-square w-11  text-xl text-gray-500">
+                            <button className="flex items-center justify-center p-3 text-xl text-gray-500 bg-blue-200 rounded-lg aspect-square w-11">
                                 -
                             </button>
                             <span>1</span>
-                            <button className="p-3 rounded-lg bg-blue-200 flex justify-center items-center aspect-square w-11  text-xl text-gray-500">
+                            <button className="flex items-center justify-center p-3 text-xl text-gray-500 bg-blue-200 rounded-lg aspect-square w-11">
                                 +
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div className="flex justify-between items-center">
-                    <span className=" font-medium text-2xl">$450</span>
-                    <button className="bg-blue-500 text-center text-white rounded-lg py-2 px-8 text-sm">
+                <div className="flex items-center justify-between">
+                    <span className="text-2xl font-medium ">$450</span>
+                    <button className="px-8 py-2 text-sm text-center text-white bg-blue-500 rounded-lg">
                         Add to cart
                     </button>
                 </div>

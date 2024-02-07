@@ -3,20 +3,28 @@ import type { NextPage } from "next";
 const CommunityPostDetail: NextPage = () => {
     return (
         <div>
-            <span>동네질문</span>
-            <div>
-                <div />
+            <span className="inline-flex items-center px-3 py-1 my-3 ml-4 text-xs font-medium text-gray-800 bg-gray-100 rounded-full">
+                동네질문
+            </span>
+            <div className="flex items-center px-4 py-3 mb-3 space-x-3 border-t border-b cursor-pointer">
+                <div className="w-10 h-10 rounded-full bg-slate-300" />
                 <div>
-                    <p>Steve Jebs</p>
-                    <p>View profile →</p>
+                    <p className="text-sm font-medium text-gray-700">
+                        Steve Jebs
+                    </p>
+                    <p className="text-xs font-medium text-gray-700">
+                        View profile &rarr;
+                    </p>
                 </div>
             </div>
             <div>
-                <div>
-                    <span>Q.</span> What is the best mandu restaurant?
+                <div className="px-4 mt-2 text-gary-700">
+                    <span className="font-medium text-orange-500">Q.</span> What
+                    is the best mandu restaurant?
                 </div>
-                <div>
-                    <span>
+
+                <div className=" px-4 flex w-full pt-3 mt-3 space-x-5 border-t border-b-[2px] text-gary-700">
+                    <span className="flex items-center space-x-2 text-sm">
                         <svg
                             className="w-4 h-4"
                             fill="none"
@@ -33,7 +41,7 @@ const CommunityPostDetail: NextPage = () => {
                         </svg>
                         <span>궁금해요 1</span>
                     </span>
-                    <span>
+                    <span className="flex items-center space-x-2 text-sm">
                         <svg
                             className="w-4 h-4"
                             fill="none"
@@ -52,22 +60,34 @@ const CommunityPostDetail: NextPage = () => {
                     </span>
                 </div>
             </div>
-            <div>
-                <div>
-                    <div />
+
+            <div className="px-4 my-5 space-y-5">
+                <div className="flex items-start space-x-3">
+                    <div className="w-8 h-8 rounded-full bg-slate-200" />
                     <div>
-                        <span>Steve Jebs</span>
-                        <span>2시간 전</span>
-                        <p>
+                        <span className="block text-sm font-medium text-gary-700">
+                            Steve Jebs
+                        </span>
+                        <span className="block text-xs text-gray-500">
+                            2시간 전
+                        </span>
+                        <p className="mt-2 text-gray-700">
                             The best mandu restaurant is the one next to my
                             house.
                         </p>
                     </div>
                 </div>
             </div>
-            <div>
-                <textarea rows={4} placeholder="Answer this question!" />
-                <button>Reply</button>
+
+            <div className="px-4">
+                <textarea
+                    rows={4}
+                    placeholder="Answer this question!"
+                    className="w-full mt-1 border-gray-300 rounded-md shadow-sm foucs:ring-2 focus:border-orange-500 focus:ring-orange-500"
+                />
+                <button className="w-full px-4 py-2 mt-2 text-sm font-medium text-white transition-all bg-orange-500 border border-transparent rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 hover:bg-orange-600">
+                    Reply
+                </button>
             </div>
         </div>
     );

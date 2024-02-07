@@ -1,18 +1,44 @@
 import { useState } from "react";
 
+function cls(...classnames: string[]) {
+    return classnames.join(" ");
+}
+
 export default function Enter() {
     const [method, setMethod] = useState<"email" | "phone">("email");
     const onEmailClick = () => setMethod("email");
     const onPhoneClick = () => setMethod("phone");
     return (
-        <div>
-            <h3>Enter to Carrot</h3>
-            <div>
-                <div>
-                    <h5>Enter using:</h5>
-                    <div>
-                        <button onClick={onEmailClick}>Email</button>
-                        <button onClick={onPhoneClick}>Phone</button>
+        <div className="mt-16">
+            <h3 className="text-3xl font-bold text-center">Enter to Carrot</h3>
+            <div className="mt-8">
+                <div className="flex flex-col items-center">
+                    <h5 className="text-sm font-medium text-gray-500">
+                        Enter using:
+                    </h5>
+                    <div className="grid w-full grid-cols-2 gap-16 mt-8 border-b-2">
+                        <button
+                            className={cls(
+                                "pb-4 font-bold border-b-2",
+                                method === "email"
+                                    ? " border-orange-400 text-orange-400"
+                                    : "border-transparent text-gray-500"
+                            )}
+                            onClick={onEmailClick}
+                        >
+                            Email
+                        </button>
+                        <button
+                            className={cls(
+                                "pb-4 font-bold border-b-2",
+                                method === "phone"
+                                    ? " border-orange-400 text-orange-400"
+                                    : "border-transparent text-gray-500"
+                            )}
+                            onClick={onPhoneClick}
+                        >
+                            Phone
+                        </button>
                     </div>
                 </div>
                 <form>

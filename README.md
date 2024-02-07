@@ -32,3 +32,15 @@ Basically the style of tailwind is a applies from `small size to large size(mobi
 So, would be better make design for mobile version at the beginning and to pc version
 
 And obviously the style of `sm` is gonna be affect to whole size if dose not use different size like `md` or `lg`, the point is there is no end condition. And size are `sm md lg xl 2xl 3xl etc...`
+
+### Just In Time Compiler
+
+Before tailwind version 3.0 tailwind was literally bunch of a lot of css
+
+So, everything gonna be removed except used when build and deployment at before 3.0 version, and it was called `purging`
+
+But now we can make a stack of many modifires like `black:sm:hover` due to JIT(Just In Time Compiler)
+
+JIT is watching our code and creating the class name what we used🔥
+
+Also we had to put the specific style when wanna dont use tailwind style like `fontSize: 1200px`, however by JIT we can use like it `className="text-[1200px]"`, `className="text-[#fff]"`, `className="bg-[url()]"`

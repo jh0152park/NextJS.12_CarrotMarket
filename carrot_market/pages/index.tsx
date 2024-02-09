@@ -2,7 +2,7 @@ import Layout from "@/components/layout";
 
 export default function Home() {
     return (
-        <Layout title="Home" hasTabBar>
+        <Layout title="홈" hasTabBar>
             <div className="flex flex-col py-10 space-y-5">
                 {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
                     <div
@@ -61,7 +61,7 @@ export default function Home() {
                         </div>
                     </div>
                 ))}
-                <button className="fixed p-4 text-white transition-colors bg-orange-400 rounded-full shadow-xl cursor-pointer  hover:bg-orange-500 bottom-24 right-5">
+                <button className="fixed p-4 text-white transition-colors bg-orange-400 rounded-full shadow-xl cursor-pointer hover:bg-orange-500 bottom-24 right-5">
                     <svg
                         className="w-6 h-6"
                         xmlns="http://www.w3.org/2000/svg"

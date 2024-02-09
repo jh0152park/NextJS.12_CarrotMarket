@@ -1,3 +1,4 @@
+import Button from "@/components/button";
 import type { NextPage } from "next";
 
 const CommunityPostDetail: NextPage = () => {
@@ -83,11 +84,9 @@ const CommunityPostDetail: NextPage = () => {
                 <textarea
                     rows={4}
                     placeholder="Answer this question!"
-                    className="w-full mt-1 border-gray-300 rounded-md shadow-sm foucs:ring-2 focus:border-orange-500 focus:ring-orange-500"
+                    className="w-full mt-1 mb-5 border-gray-300 rounded-md shadow-sm foucs:ring-2 focus:border-orange-500 focus:ring-orange-500"
                 />
-                <button className="w-full px-4 py-2 mt-2 text-sm font-medium text-white transition-all bg-orange-500 border border-transparent rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 hover:bg-orange-600">
-                    Reply
-                </button>
+                <Button name="Reply" />
             </div>
         </div>
     );

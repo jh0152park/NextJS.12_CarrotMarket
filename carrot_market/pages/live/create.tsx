@@ -1,3 +1,4 @@
+import Button from "@/components/button";
 import Layout from "@/components/layout";
 
 export default function Create() {
@@ -53,9 +54,8 @@ export default function Create() {
                         className="w-full mt-1 border-gray-300 rounded-md shadow-sm foucs:ring-2 focus:border-orange-500 focus:ring-orange-500"
                     />
                 </div>
-                <button className="w-full px-4 py-2 mt-5 text-sm font-medium text-white transition-all bg-orange-500 border border-transparent rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 hover:bg-orange-600">
-                    Go Live
-                </button>
+
+                <Button name="Go Live" />
             </div>
         </Layout>
     );

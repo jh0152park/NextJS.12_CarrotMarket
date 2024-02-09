@@ -1,3 +1,4 @@
+import Button from "@/components/button";
 import { cls } from "@/libs/utils";
 import { useState } from "react";
 
@@ -69,10 +70,13 @@ export default function Enter() {
                             </div>
                         ) : null}
                     </div>
-                    <button className="px-4 py-2 mt-5 text-sm font-medium text-white bg-orange-500 border border-transparent rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 hover:bg-orange-600">
-                        {method === "email" ? "Get login link" : null}
-                        {method === "phone" ? "Get one-time password" : null}
-                    </button>
+                    <Button
+                        name={
+                            method === "email"
+                                ? "Get login link"
+                                : "Get one-time password"
+                        }
+                    />
                 </form>
                 <div className="mt-8">
                     <div className="relative">

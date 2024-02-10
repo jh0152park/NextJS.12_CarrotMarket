@@ -24,7 +24,7 @@ const CommunityPostDetail: NextPage = () => {
                     is the best mandu restaurant?
                 </div>
 
-                <div className=" px-4 flex w-full pt-3 mt-3 space-x-5 border-t border-b-[2px] text-gary-700">
+                <div className="px-4 flex w-full pb-3 pt-3 mt-3 space-x-5 border-t border-b-[2px] text-gary-700">
                     <span className="flex items-center space-x-2 text-sm">
                         <svg
                             className="w-4 h-4"
@@ -62,7 +62,7 @@ const CommunityPostDetail: NextPage = () => {
                 </div>
             </div>
 
-            <div className="px-4 my-5 space-y-5">
+            <div className="px-4 mt-5 space-y-5">
                 <div className="flex items-start space-x-3">
                     <div className="w-8 h-8 rounded-full bg-slate-200" />
                     <div>

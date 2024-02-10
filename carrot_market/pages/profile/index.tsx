@@ -72,7 +72,7 @@ const Profile: NextPage = () => {
                     </Link>
 
                     <Link href="/profile/loved" legacyBehavior>
-                        <a className="flex flex-col items-center">
+                        <div className="flex flex-col items-center cursor-pointer">
                             <div className="flex items-center justify-center text-white bg-orange-500 rounded-full w-14 h-14">
                                 <svg
                                     className="w-6 h-6"
@@ -92,7 +92,7 @@ const Profile: NextPage = () => {
                             <span className="mt-2 text-sm font-medium text-gray-700">
                                 관심목록
                             </span>
-                        </a>
+                        </div>
                     </Link>
                 </div>
 

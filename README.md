@@ -188,3 +188,9 @@ In my case, using mac os, so just run below command to install
           }
         })
     ```
+
+# API Routes
+
+We can not control and manage our DB directly at frontend side.
+
+So we need server side to control and manage our DB, So created a new folder `api` under `pages` folder

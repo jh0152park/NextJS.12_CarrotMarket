@@ -137,4 +137,34 @@ In my case, using mac os, so just run below command to install
     Local address to connect your application: 127.0.0.1:3306 (press ctrl-c to quit)
     ```
 6. copy the url to DTATBASE_URL of prisma at .env file as `DATABASE_URL="mysql://127.0.0.1:3306/carrot-market"`
-    
+
+7. add relationmode into `datasource db` at schema.prisma file as below for protect abnormal work. Because `planetscale` dose not checked that data is exist or dose not exsit when using foreign keys.
+    ```
+    generator client {
+      provider = "prisma-client-js"
+    }
+
+    datasource db {
+      provider     = "mysql"
+      url          = env("DATABASE_URL")
+      relationMode = "prisma"
+    }
+    ```
+
+8. run `px prisma db push` for push our db models to db at planetscale
+    ```
+    🚀  Your database is now in sync with your Prisma schema. Done in 430ms
+
+    Running generate... (Use --skip-generate to skip the generators)
+
+    added 1 package, and audited 370 packages in 3s
+
+    129 packages are looking for funding
+      run `npm fund` for details
+
+    found 0 vulnerabilities
+
+    ✔ Generated Prisma Client (v5.9.1) to ./node_modules/@prisma/client in 43ms
+    ```
+
+9. check our schema at the planetscale

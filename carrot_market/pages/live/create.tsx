@@ -1,6 +1,7 @@
 import Button from "@/components/button";
 import Input from "@/components/input";
 import Layout from "@/components/layout";
+import Textarea from "@/components/textarea";
 
 export default function Create() {
     return (
@@ -13,10 +14,7 @@ export default function Create() {
                         Description
                     </label>
 
-                    <textarea
-                        rows={4}
-                        className="w-full mt-1 border-gray-300 rounded-md shadow-sm foucs:ring-2 focus:border-orange-500 focus:ring-orange-500"
-                    />
+                    <Textarea placeholder="" />
                 </div>
 
                 <Button name="Go Live" />

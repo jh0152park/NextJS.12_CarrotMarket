@@ -1,5 +1,7 @@
 import Layout from "@/components/layout";
 import type { NextPage } from "next";
+import Link from "next/link";
+import App from "../_app";
 
 const Profile: NextPage = () => {
     return (
@@ -11,9 +13,13 @@ const Profile: NextPage = () => {
                         <span className="font-medium text-gray-900">
                             Steve Jebs
                         </span>
-                        <span className="text-sm text-gray-700">
-                            Edit profile &rarr;
-                        </span>
+                        <Link href="/profile/edit" legacyBehavior>
+                            <a>
+                                <span className="text-sm text-gray-700">
+                                    Edit profile &rarr;
+                                </span>
+                            </a>
+                        </Link>
                     </div>
                 </div>
                 <div className="flex justify-around mt-10">

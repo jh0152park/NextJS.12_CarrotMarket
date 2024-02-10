@@ -99,10 +99,10 @@ In my case, using mac os, so just run below command to install
 
 ### How to create a new database?
 
-- check can see below comment after run `pscale`
+1. check can see below comment after run `pscale`
     - `pscale is a CLI library for communicating with PlanetScale's API.`
-- run `pscale auth` for login to planetscale
-- run `pscale region list` to check SLUG name for create a dababase
+2. run `pscale auth` for login to planetscale
+3. run `pscale region list` to check SLUG name for create a dababase
     ```
      NAME (15)                                          SLUG                          ENABLED  
     -------------------------------------------------- ----------------------------- --------- 
@@ -122,7 +122,7 @@ In my case, using mac os, so just run below command to install
       GCP asia-northeast3 (Seoul, South Korea)           gcp-asia-northeast3           Yes      
       AWS us-east-2 (Ohio)                               aws-us-east-2                 Yes  
     ```
-- run `pscale database create [name of database] --region gcp-asia-northeast3`
+4. run `pscale database create [name of database] --region gcp-asia-northeast3`
     - if occurred a error as `Error: You must add a credit card to your account before creating a database.` juat add credit card at homepage
 
     ```
@@ -130,11 +130,11 @@ In my case, using mac os, so just run below command to install
 
     View this database in the browser: https://app.planetscale.com/jh0152park/carrot-market
     ```
-- run `pscale connect [name of database]` to connect and don't close the terminal
+5. run `pscale connect [name of database]` to connect and don't close the terminal
     ```
     Secure connection to database carrot-market and branch main is established!.
 
     Local address to connect your application: 127.0.0.1:3306 (press ctrl-c to quit)
     ```
-- copy the url to DTATBASE_URL of prisma at .env file as `DATABASE_URL="mysql://127.0.0.1:3306/carrot-market"`
+6. copy the url to DTATBASE_URL of prisma at .env file as `DATABASE_URL="mysql://127.0.0.1:3306/carrot-market"`
     

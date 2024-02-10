@@ -38,7 +38,12 @@ export default function Layout({
             {hasTabBar ? (
                 <nav className="fixed bottom-0 flex items-center justify-between w-full max-w-xl px-10 pt-3 pb-5 text-gray-800 bg-white border-t text-medium">
                     <Link href="/" legacyBehavior>
-                        <a className="flex flex-col items-center space-y-2">
+                        <a
+                            className={cls(
+                                "flex flex-col items-center space-y-2",
+                                router.pathname === "/" ? "text-orange-500" : ""
+                            )}
+                        >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -58,7 +63,14 @@ export default function Layout({
                     </Link>
 
                     <Link href="/community" legacyBehavior>
-                        <a className="flex flex-col items-center space-y-2">
+                        <a
+                            className={cls(
+                                "flex flex-col items-center space-y-2",
+                                router.pathname === "/community"
+                                    ? "text-orange-500"
+                                    : ""
+                            )}
+                        >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -79,7 +91,14 @@ export default function Layout({
                     </Link>
 
                     <Link href="/chats" legacyBehavior>
-                        <a className="flex flex-col items-center space-y-2">
+                        <a
+                            className={cls(
+                                "flex flex-col items-center space-y-2",
+                                router.pathname === "/chats"
+                                    ? "text-orange-500"
+                                    : ""
+                            )}
+                        >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -100,7 +119,14 @@ export default function Layout({
                     </Link>
 
                     <Link href="/live" legacyBehavior>
-                        <a className="flex flex-col items-center space-y-2">
+                        <a
+                            className={cls(
+                                "flex flex-col items-center space-y-2",
+                                router.pathname === "/live"
+                                    ? "text-orange-500"
+                                    : ""
+                            )}
+                        >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -121,7 +147,14 @@ export default function Layout({
                     </Link>
 
                     <Link href="/profile" legacyBehavior>
-                        <a className="flex flex-col items-center space-y-2">
+                        <a
+                            className={cls(
+                                "flex flex-col items-center space-y-2",
+                                router.pathname === "/profile"
+                                    ? "text-orange-500"
+                                    : ""
+                            )}
+                        >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"

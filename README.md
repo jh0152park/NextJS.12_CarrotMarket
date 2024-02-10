@@ -168,3 +168,23 @@ In my case, using mac os, so just run below command to install
     ```
 
 9. check our schema at the planetscale
+
+# ✨ Prisma Client
+
+1. run `npm i @prisma/client`
+2. create a new client file for `prisma client` like `client.ts`
+    ```
+    // client.ts
+    import {PrismaClient} from "@prisma/client"
+
+    export default new PrismaClient();
+    ```
+3. we can use our models like a object with PrismaClient like as below
+    ```
+    client.user.create({
+        data: {
+            email: "", 
+            name: ""
+          }
+        })
+    ```

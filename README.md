@@ -44,3 +44,11 @@ But now we can make a stack of many modifires like `black:sm:hover` due to JIT(J
 JIT is watching our code and creating the class name what we used🔥
 
 Also we had to put the specific style when wanna dont use tailwind style like `fontSize: 1200px`, however by JIT we can use like it `className="text-[1200px]"`, `className="text-[#fff]"`, `className="bg-[url()]"`
+
+# ✨ What is Prisma?
+
+Prisma is `Node.js` and `TypeScript` ORM(Object Relational Mapping), basically doing like a translator.
+
+Literally a bridge that helps you use a database using only TypeScript without SQL statements.
+
+And have to explain to prisma how looks like our database into `schema.prisam` file.

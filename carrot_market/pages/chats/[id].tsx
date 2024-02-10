@@ -1,3 +1,4 @@
+import Input from "@/components/input";
 import type { NextPage } from "next";
 
 const ChatDetail: NextPage = () => {
@@ -25,6 +26,7 @@ const ChatDetail: NextPage = () => {
                     </div>
                 </>
             ))}
+
             <div className="fixed inset-x-0 left-0 right-0 w-full max-w-md mx-auto bottom-2">
                 <div className="relative flex items-center">
                     <input

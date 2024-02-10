@@ -1,4 +1,5 @@
 import Button from "@/components/button";
+import Input from "@/components/input";
 import { cls } from "@/libs/utils";
 import { useState } from "react";
 
@@ -40,36 +41,21 @@ export default function Enter() {
                     </div>
                 </div>
                 <form className="flex flex-col mt-8">
-                    <label
-                        htmlFor="input"
-                        className="text-sm font-medium text-gary-700"
-                    >
-                        {method === "email" ? "Email address" : null}
-                        {method === "phone" ? "Phone number" : null}
-                    </label>
-                    <div className="mt-1">
-                        {method === "email" ? (
-                            <input
-                                className="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-                                type="email"
-                                required
-                                id="input"
-                            />
-                        ) : null}
-                        {method === "phone" ? (
-                            <div className="flex rounded-md shadow-sm">
-                                <span className="flex items-center justify-center px-3 text-sm text-gray-500 border border-r-0 border-gray-300 select-none bg-gray-50 rounded-l-md">
-                                    +82
-                                </span>
-                                <input
-                                    className="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md rounded-l-none shadow-sm appearance-none focus:outline-none focus:ring-orange-500 focus:border-orange-500"
-                                    type="number"
-                                    required
-                                    id="input"
-                                />
-                            </div>
-                        ) : null}
-                    </div>
+                    {method === "email" ? (
+                        <Input
+                            label="Email address"
+                            name="input"
+                            kind="email"
+                            required
+                        />
+                    ) : (
+                        <Input
+                            label="Phone number"
+                            name="input"
+                            kind="phone"
+                            required
+                        />
+                    )}
                     <Button
                         name={
                             method === "email"

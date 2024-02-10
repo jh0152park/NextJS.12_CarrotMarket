@@ -89,3 +89,52 @@ PlanetScale is serverless database platfrom compatible with mysql.
 And make sure create a new account to use.
 
 Go to [planetsclae](https://planetscale.com/)
+
+### How to install planetscale cli?
+
+Check it out the planetscale cli [github](https://github.com/planetscale/cli)
+
+In my case, using mac os, so just run below command to install
+- run `brew install planetscale/tap/pscale`
+
+### How to create a new database?
+
+- check can see below comment after run `pscale`
+    - `pscale is a CLI library for communicating with PlanetScale's API.`
+- run `pscale auth` for login to planetscale
+- run `pscale region list` to check SLUG name for create a dababase
+    ```
+     NAME (15)                                          SLUG                          ENABLED  
+    -------------------------------------------------- ----------------------------- --------- 
+      AWS us-east-1 (N. Virginia)                        us-east                       Yes      
+      AWS us-west-2 (Oregon)                             us-west                       Yes      
+      AWS eu-west-1 (Dublin)                             eu-west                       Yes      
+      AWS ap-south-1 (Mumbai)                            ap-south                      Yes      
+      AWS ap-southeast-1 (Singapore)                     ap-southeast                  Yes      
+      AWS ap-northeast-1 (Tokyo)                         ap-northeast                  Yes      
+      AWS eu-central-1 (Frankfurt)                       eu-central                    Yes      
+      AWS ap-southeast-2 (Sydney)                        aws-ap-southeast-2            Yes      
+      AWS sa-east-1 (Sao Paulo)                          aws-sa-east-1                 Yes      
+      GCP us-central1 (Council Bluffs, Iowa)             gcp-us-central1               Yes      
+      AWS eu-west-2 (London)                             aws-eu-west-2                 Yes      
+      GCP us-east4 (Ashburn, Virginia)                   gcp-us-east4                  Yes      
+      GCP northamerica-northeast1 (Montréal, Québec)     gcp-northamerica-northeast1   Yes      
+      GCP asia-northeast3 (Seoul, South Korea)           gcp-asia-northeast3           Yes      
+      AWS us-east-2 (Ohio)                               aws-us-east-2                 Yes  
+    ```
+- run `pscale database create [name of database] --region gcp-asia-northeast3`
+    - if occurred a error as `Error: You must add a credit card to your account before creating a database.` juat add credit card at homepage
+
+    ```
+    Database carrot-market was successfully created.
+
+    View this database in the browser: https://app.planetscale.com/jh0152park/carrot-market
+    ```
+- run `pscale connect [name of database]` to connect and don't close the terminal
+    ```
+    Secure connection to database carrot-market and branch main is established!.
+
+    Local address to connect your application: 127.0.0.1:3306 (press ctrl-c to quit)
+    ```
+- copy the url to DTATBASE_URL of prisma at .env file as `DATABASE_URL="mysql://127.0.0.1:3306/carrot-market"`
+    

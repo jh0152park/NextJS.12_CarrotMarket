@@ -1,8 +1,9 @@
 import Layout from "@/components/layout";
+import Message from "@/components/message";
 
 export default function LiveDetail() {
     return (
-        <Layout hasTabBar title="라이브">
+        <Layout canGoBack>
             <div className="px-4 py-10 space-y-4">
                 <div className="pt-4">
                     <div className="w-full rounded-md shadow-sm bg-slate-300 aspect-video" />
@@ -30,24 +31,12 @@ export default function LiveDetail() {
                 <div className="py-10 pb-10 h-[50vh] overflow-y-scroll space-y-4">
                     {[...new Array(50)].map((_, i) => (
                         <>
-                            <div key={i} className="flex items-start space-x-2">
-                                <div className="w-8 h-8 rounded-full bg-slate-400" />
-                                <div className="w-1/2 p-2 text-sm text-gray-700 border border-gray-300 rounded-md">
-                                    <p>Hi how much are you selling them for?</p>
-                                </div>
-                            </div>
-                            <div className="flex flex-row-reverse items-start space-x-2 space-x-reverse">
-                                <div className="w-8 h-8 rounded-full bg-slate-400" />
-                                <div className="w-1/2 p-2 text-sm text-gray-700 border border-gray-300 rounded-md">
-                                    <p>I want ￦20,000</p>
-                                </div>
-                            </div>
-                            <div className="flex items-start space-x-2">
-                                <div className="w-8 h-8 rounded-full bg-slate-400" />
-                                <div className="w-1/2 p-2 text-sm text-gray-700 border border-gray-300 rounded-md">
-                                    <p>미쳤어</p>
-                                </div>
-                            </div>
+                            <Message
+                                message="Hi how much are you selling them for ?"
+                                sent={false}
+                            />
+                            <Message message="I want ￦20,000" sent={true} />
+                            <Message message="미쳤어" sent={false} />
                         </>
                     ))}
                 </div>

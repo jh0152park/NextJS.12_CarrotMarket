@@ -1,3 +1,4 @@
+import FloatingButton from "@/components/floatingButton";
 import Layout from "@/components/layout";
 import ProductSummary from "@/components/productSummary";
 
@@ -14,7 +15,7 @@ export default function Home() {
                         chat={1}
                     />
                 ))}
-                <button className="fixed p-4 text-white transition-colors bg-orange-400 rounded-full shadow-xl cursor-pointer hover:bg-orange-500 bottom-24 right-5">
+                <FloatingButton href="/items/upload">
                     <svg
                         className="w-6 h-6"
                         xmlns="http://www.w3.org/2000/svg"
@@ -30,7 +31,7 @@ export default function Home() {
                             d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                         />
                     </svg>
-                </button>
+                </FloatingButton>
             </div>
         </Layout>
     );

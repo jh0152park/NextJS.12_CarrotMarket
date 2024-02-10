@@ -12,7 +12,9 @@ export default function Home() {
                         description="White"
                         price={200}
                         like={1}
-                        chat={1}
+                        message={1}
+                        id={i}
+                        key={i}
                     />
                 ))}
                 <FloatingButton href="/items/upload">

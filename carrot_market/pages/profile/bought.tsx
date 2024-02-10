@@ -9,7 +9,9 @@ export default function Bought() {
                     description="White"
                     price={200}
                     like={99}
-                    chat={123}
+                    message={123}
+                    id={i}
+                    key={i}
                 />
             ))}
         </div>

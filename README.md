@@ -78,3 +78,14 @@ And have to explain to prisma how looks like our database into `schema.prisam` f
       id Int @id @default(autoincrement())
     }
     ```
+
+# ✨ What is PlanetScale?
+
+PlanetScale is serverless database platfrom compatible with mysql.
+
+- database platform mean is they are give us some database
+- serverless mean is we don't need to manage the server not a dose not exist server
+
+And make sure create a new account to use.
+
+Go to [planetsclae](https://planetscale.com/)

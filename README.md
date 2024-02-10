@@ -52,3 +52,29 @@ Prisma is `Node.js` and `TypeScript` ORM(Object Relational Mapping), basically d
 Literally a bridge that helps you use a database using only TypeScript without SQL statements.
 
 And have to explain to prisma how looks like our database into `schema.prisam` file.
+
+### Prisma setup
+
+1. Install VSCode prisam extension and name is `Prisam` made by prisma
+2. run `npm i prisma -D`
+3. run `npx prisma init` then generated prisam folder and .env file
+    ```
+    Next steps:
+    1. Set the DATABASE_URL in the .env file to point to your existing database. If your database has no tables yet, read https://pris.ly/d/getting-started
+    2. Set the provider of the datasource block in schema.prisma to match your database: postgresql, mysql, sqlite, sqlserver, mongodb or cockroachdb.
+    3. Run prisma db pull to turn your database schema into a Prisma schema.
+    4. Run prisma generate to generate the Prisma Client. You can then start querying your database.
+    ```
+    - 3-1. chaanged the `datasource provider` from `schema.prisma` to what i gonna use as below. In my case is `mysql`
+        ```
+        datasource db {
+          provider = "mysql"
+          url      = env("DATABASE_URL")
+        }
+        ```
+4. create a model to using at database into `schema.prisma` file as below
+    ```
+    model User {
+      id Int @id @default(autoincrement())
+    }
+    ```

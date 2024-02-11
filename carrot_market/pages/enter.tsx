@@ -3,7 +3,7 @@ import Input from "@/components/input";
 import { cls } from "@/libs/utils";
 import { watch } from "fs";
 import { useState } from "react";
-import {FieldValues, useForm} from "react-hook-form"
+import { FieldValues, useForm } from "react-hook-form";
 
 interface IEnterForm {
     email?: string;
@@ -11,24 +11,32 @@ interface IEnterForm {
 }
 
 export default function Enter() {
-    const {register,  handleSubmit, reset} = useForm<IEnterForm>()
+    const [isLoading, setIsLoading] = useState(false);
+    const { register, handleSubmit, reset } = useForm<IEnterForm>();
     const [method, setMethod] = useState<"email" | "phone">("email");
 
     function onEmailClick() {
         setMethod("email");
         reset();
-    } 
-    
+    }
+
     function onPhoneClick() {
         setMethod("phone");
         reset();
-    } 
-    
-
-    function onSubmit(data: FieldValues) {
-        console.log(data)
     }
 
+    function onSubmit(data: FieldValues) {
+        setIsLoading(true);
+        fetch("/api/users/enter", {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then(() => {
+            setIsLoading(false);
+        });
+    }
 
     return (
         <div className="px-4 mt-16">
@@ -63,7 +71,10 @@ export default function Enter() {
                         </button>
                     </div>
                 </div>
-                <form className="flex flex-col mt-8" onSubmit={handleSubmit(onSubmit)}>
+                <form
+                    className="flex flex-col mt-8"
+                    onSubmit={handleSubmit(onSubmit)}
+                >
                     {method === "email" ? (
                         <Input
                             register={register("email", {
@@ -77,8 +88,8 @@ export default function Enter() {
                     ) : (
                         <Input
                             register={register("phone", {
-                                required: true
-                            })}    
+                                required: true,
+                            })}
                             label="Phone number"
                             name="input"
                             kind="phone"
@@ -87,9 +98,11 @@ export default function Enter() {
                     )}
                     <Button
                         name={
-                            method === "email"
-                                ? "Get login link"
-                                : "Get one-time password"
+                            isLoading
+                                ? "Loading..."
+                                : method === "email"
+                                  ? "Get login link"
+                                  : "Get one-time password"
                         }
                     />
                 </form>

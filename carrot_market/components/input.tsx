@@ -1,11 +1,15 @@
+import type { UseFormRegisterReturn } from "react-hook-form";
+
+
 interface InputProps {
     label?: string;
     name?: string;
     kind?: "email" | "phone" | "text" | "price";
+    register: UseFormRegisterReturn;
     [key: string]: any;
 }
 
-export default function Input({ label, name, kind, ...options }: InputProps) {
+export default function Input({ label, name, kind, register, ...options }: InputProps) {
     if (kind === "email") {
         return (
             <>
@@ -21,6 +25,7 @@ export default function Input({ label, name, kind, ...options }: InputProps) {
                         type="email"
                         id={name}
                         {...options}
+                        {...register}
                     />
                 </div>
             </>
@@ -40,10 +45,11 @@ export default function Input({ label, name, kind, ...options }: InputProps) {
                             +82
                         </span>
                         <input
+                            id={name}
                             className="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md rounded-l-none shadow-sm appearance-none focus:outline-none focus:ring-orange-500 focus:border-orange-500"
                             type="number"
                             {...options}
-                            id={name}
+                            {...register}
                         />
                     </div>
                 </div>
@@ -65,6 +71,7 @@ export default function Input({ label, name, kind, ...options }: InputProps) {
                             className="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none pl-7 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
                             type="text"
                             {...options}
+                            {...register}
                         />
                     </div>
                 </div>
@@ -92,6 +99,7 @@ export default function Input({ label, name, kind, ...options }: InputProps) {
                             type="number"
                             placeholder="0.00"
                             {...options}
+                            {...register}
                         />
                         <div className="absolute right-0 flex items-center pr-3 pointer-events-none">
                             <span className="text-gray-500">KRW</span>

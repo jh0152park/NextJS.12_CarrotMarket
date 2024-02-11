@@ -13,10 +13,10 @@ interface IEnterForm {
 
 export default function Enter() {
     const [isLoading, setIsLoading] = useState(false);
-    const [enter, { loading, data, error }] = useMutation("/api/users/enter");
+    const [method, setMethod] = useState<"email" | "phone">("email");
 
     const { register, handleSubmit, reset } = useForm<IEnterForm>();
-    const [method, setMethod] = useState<"email" | "phone">("email");
+    const [enter, { loading, data, error }] = useMutation("/api/users/enter");
 
     function onEmailClick() {
         setMethod("email");
@@ -30,18 +30,9 @@ export default function Enter() {
 
     function onSubmit(data: FieldValues) {
         enter(data);
-
-        setIsLoading(true);
-        fetch("/api/users/enter", {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        }).then(() => {
-            setIsLoading(false);
-        });
     }
+
+    console.log(loading, data, error);
 
     return (
         <div className="px-4 mt-16">

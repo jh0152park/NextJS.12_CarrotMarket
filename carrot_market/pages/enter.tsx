@@ -8,11 +8,10 @@ import { FieldValues, useForm } from "react-hook-form";
 
 interface IEnterForm {
     email?: string;
-    phone?: string;
+    phoneNumber?: string;
 }
 
 export default function Enter() {
-    const [isLoading, setIsLoading] = useState(false);
     const [method, setMethod] = useState<"email" | "phone">("email");
 
     const { register, handleSubmit, reset } = useForm<IEnterForm>();
@@ -30,6 +29,7 @@ export default function Enter() {
 
     function onSubmit(data: FieldValues) {
         enter(data);
+        reset();
     }
 
     console.log(loading, data, error);
@@ -83,7 +83,7 @@ export default function Enter() {
                         />
                     ) : (
                         <Input
-                            register={register("phone", {
+                            register={register("phoneNumber", {
                                 required: true,
                             })}
                             label="Phone number"
@@ -94,7 +94,7 @@ export default function Enter() {
                     )}
                     <Button
                         name={
-                            isLoading
+                            loading
                                 ? "Loading..."
                                 : method === "email"
                                   ? "Get login link"

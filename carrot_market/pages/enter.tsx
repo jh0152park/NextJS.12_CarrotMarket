@@ -1,12 +1,35 @@
 import Button from "@/components/button";
 import Input from "@/components/input";
 import { cls } from "@/libs/utils";
+import { watch } from "fs";
 import { useState } from "react";
+import {FieldValues, useForm} from "react-hook-form"
+
+interface IEnterForm {
+    email?: string;
+    phone?: string;
+}
 
 export default function Enter() {
+    const {register,  handleSubmit, reset} = useForm<IEnterForm>()
     const [method, setMethod] = useState<"email" | "phone">("email");
-    const onEmailClick = () => setMethod("email");
-    const onPhoneClick = () => setMethod("phone");
+
+    function onEmailClick() {
+        setMethod("email");
+        reset();
+    } 
+    
+    function onPhoneClick() {
+        setMethod("phone");
+        reset();
+    } 
+    
+
+    function onSubmit(data: FieldValues) {
+        console.log(data)
+    }
+
+
     return (
         <div className="px-4 mt-16">
             <h3 className="text-3xl font-bold text-center">Enter to Carrot</h3>
@@ -40,9 +63,12 @@ export default function Enter() {
                         </button>
                     </div>
                 </div>
-                <form className="flex flex-col mt-8">
+                <form className="flex flex-col mt-8" onSubmit={handleSubmit(onSubmit)}>
                     {method === "email" ? (
                         <Input
+                            register={register("email", {
+                                required: true,
+                            })}
                             label="Email address"
                             name="input"
                             kind="email"
@@ -50,6 +76,9 @@ export default function Enter() {
                         />
                     ) : (
                         <Input
+                            register={register("phone", {
+                                required: true
+                            })}    
                             label="Phone number"
                             name="input"
                             kind="phone"

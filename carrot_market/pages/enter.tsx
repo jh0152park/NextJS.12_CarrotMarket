@@ -1,6 +1,7 @@
 import Button from "@/components/button";
 import Input from "@/components/input";
-import { cls } from "@/libs/utils";
+import useMutation from "@/libs/client/useMutation";
+import { cls } from "@/libs/client/utils";
 import { watch } from "fs";
 import { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
@@ -12,6 +13,8 @@ interface IEnterForm {
 
 export default function Enter() {
     const [isLoading, setIsLoading] = useState(false);
+    const [enter, { loading, data, error }] = useMutation("/api/users/enter");
+
     const { register, handleSubmit, reset } = useForm<IEnterForm>();
     const [method, setMethod] = useState<"email" | "phone">("email");
 
@@ -26,6 +29,8 @@ export default function Enter() {
     }
 
     function onSubmit(data: FieldValues) {
+        enter(data);
+
         setIsLoading(true);
         fetch("/api/users/enter", {
             method: "POST",

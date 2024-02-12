@@ -83,8 +83,8 @@ And have to explain to prisma how looks like our database into `schema.prisam` f
 
 PlanetScale is serverless database platfrom compatible with mysql.
 
-- database platform mean is they are give us some database
-- serverless mean is we don't need to manage the server not a dose not exist server
+-   database platform mean is they are give us some database
+-   serverless mean is we don't need to manage the server not a dose not exist server
 
 And make sure create a new account to use.
 
@@ -95,7 +95,8 @@ Go to [planetsclae](https://planetscale.com/)
 Check it out the planetscale cli [github](https://github.com/planetscale/cli)
 
 In my case, using mac os, so just run below command to install
-- run `brew install planetscale/tap/pscale`
+
+-   run `brew install planetscale/tap/pscale`
 
 ### How to create a new database?
 
@@ -104,25 +105,26 @@ In my case, using mac os, so just run below command to install
 2. run `pscale auth` for login to planetscale
 3. run `pscale region list` to check SLUG name for create a dababase
     ```
-     NAME (15)                                          SLUG                          ENABLED  
-    -------------------------------------------------- ----------------------------- --------- 
-      AWS us-east-1 (N. Virginia)                        us-east                       Yes      
-      AWS us-west-2 (Oregon)                             us-west                       Yes      
-      AWS eu-west-1 (Dublin)                             eu-west                       Yes      
-      AWS ap-south-1 (Mumbai)                            ap-south                      Yes      
-      AWS ap-southeast-1 (Singapore)                     ap-southeast                  Yes      
-      AWS ap-northeast-1 (Tokyo)                         ap-northeast                  Yes      
-      AWS eu-central-1 (Frankfurt)                       eu-central                    Yes      
-      AWS ap-southeast-2 (Sydney)                        aws-ap-southeast-2            Yes      
-      AWS sa-east-1 (Sao Paulo)                          aws-sa-east-1                 Yes      
-      GCP us-central1 (Council Bluffs, Iowa)             gcp-us-central1               Yes      
-      AWS eu-west-2 (London)                             aws-eu-west-2                 Yes      
-      GCP us-east4 (Ashburn, Virginia)                   gcp-us-east4                  Yes      
-      GCP northamerica-northeast1 (Montréal, Québec)     gcp-northamerica-northeast1   Yes      
-      GCP asia-northeast3 (Seoul, South Korea)           gcp-asia-northeast3           Yes      
-      AWS us-east-2 (Ohio)                               aws-us-east-2                 Yes  
+     NAME (15)                                          SLUG                          ENABLED
+    -------------------------------------------------- ----------------------------- ---------
+      AWS us-east-1 (N. Virginia)                        us-east                       Yes
+      AWS us-west-2 (Oregon)                             us-west                       Yes
+      AWS eu-west-1 (Dublin)                             eu-west                       Yes
+      AWS ap-south-1 (Mumbai)                            ap-south                      Yes
+      AWS ap-southeast-1 (Singapore)                     ap-southeast                  Yes
+      AWS ap-northeast-1 (Tokyo)                         ap-northeast                  Yes
+      AWS eu-central-1 (Frankfurt)                       eu-central                    Yes
+      AWS ap-southeast-2 (Sydney)                        aws-ap-southeast-2            Yes
+      AWS sa-east-1 (Sao Paulo)                          aws-sa-east-1                 Yes
+      GCP us-central1 (Council Bluffs, Iowa)             gcp-us-central1               Yes
+      AWS eu-west-2 (London)                             aws-eu-west-2                 Yes
+      GCP us-east4 (Ashburn, Virginia)                   gcp-us-east4                  Yes
+      GCP northamerica-northeast1 (Montréal, Québec)     gcp-northamerica-northeast1   Yes
+      GCP asia-northeast3 (Seoul, South Korea)           gcp-asia-northeast3           Yes
+      AWS us-east-2 (Ohio)                               aws-us-east-2                 Yes
     ```
 4. run `pscale database create [name of database] --region gcp-asia-northeast3`
+
     - if occurred a error as `Error: You must add a credit card to your account before creating a database.` juat add credit card at homepage
 
     ```
@@ -130,15 +132,19 @@ In my case, using mac os, so just run below command to install
 
     View this database in the browser: https://app.planetscale.com/jh0152park/carrot-market
     ```
+
 5. run `pscale connect [name of database]` to connect and don't close the terminal
+
     ```
     Secure connection to database carrot-market and branch main is established!.
 
     Local address to connect your application: 127.0.0.1:3306 (press ctrl-c to quit)
     ```
+
 6. copy the url to DTATBASE_URL of prisma at .env file as `DATABASE_URL="mysql://127.0.0.1:3306/carrot-market"`
 
 7. add relationmode into `datasource db` at schema.prisma file as below for protect abnormal work. Because `planetscale` dose not checked that data is exist or dose not exsit when using foreign keys.
+
     ```
     generator client {
       provider = "prisma-client-js"
@@ -151,7 +157,8 @@ In my case, using mac os, so just run below command to install
     }
     ```
 
-8. run `px prisma db push` for push our db models to db at planetscale
+8. run `npx prisma db push` for push our db models to db at planetscale
+
     ```
     🚀  Your database is now in sync with your Prisma schema. Done in 430ms
 
@@ -167,23 +174,29 @@ In my case, using mac os, so just run below command to install
     ✔ Generated Prisma Client (v5.9.1) to ./node_modules/@prisma/client in 43ms
     ```
 
+    schema.prisma파일에 새로운 모델을 만들게 되면 해당 명령어 다시한번 입력해주면 됨
+
+    근데 중요한건 pscale connect [db-name] 명령어가 실행되는 상태에서 해야 정상동작 함
+
 9. check our schema at the planetscale
 
 # ✨ Prisma Client
 
 1. run `npm i @prisma/client`
 2. create a new client file for `prisma client` like `client.ts`
+
     ```
     // client.ts
     import {PrismaClient} from "@prisma/client"
 
     export default new PrismaClient();
     ```
+
 3. we can use our models like a object with PrismaClient like as below
     ```
     client.user.create({
         data: {
-            email: "", 
+            email: "",
             name: ""
           }
         })

@@ -269,6 +269,90 @@ DOC: https://www.twilio.com/docs
     - ![alt text](https://github.com/jh0152park/NextJS.12_CarrotMarket/blob/30c0d0dff9f56234052a196e507d67b401851eb3/image-6.png?raw=true)
 10. 여기서 중요한건 해당 계정으로는 진짜로 입력받는 핸드폰 번호한테 문자를 보낼 수 없음 (트라이얼 계정이기 때문에)
 
-### Twilio sdk 설치
+### Twilio sdk 설치 및 문자 보내기
 
 -   run `npm i twilio`
+
+```JS
+//enter.tsx
+
+const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
+if (phoneNumber) {
+        await twilioClient.messages.create({
+            messagingServiceSid: process.env.TWILIO_MESSAGE_SID,
+            to: process.env.PHONE_NUMBER!,
+            body: `Your login token is ${payload}`,
+        });
+    }
+```
+
+### Twilio를 통해서 이메일 보내기
+
+```
+후기를 들어보니 매우 느린편인거 같음, 그래서 빠르게 테스트를 해보고 싶다면 nodemiler를 사용해서 네이버로 테스트 해봐도 될듯
+
+설치 명령어 npm install --save nodemailer @types/nodemailer, 네이버 계정을 사용할경우 IMAP/SMTP를 설정해줘야함
+```
+
+1. 좌측메뉴 -> Explore Products -> Email
+2. Sendgrid로 이동하면 Start for free클릭 후 계정 생성
+
+--> 회원가입을 진행해도 바로 사용할 수 없고, 사용승인을 기다려야해서 그냥 네이버로 진행해야 시간을 아낄거같다.
+
+1. 네이버 이메일 접속
+    - 좌측 메뉴 중 하단에 환경설정 클릭
+    - POP3/IMAP 설정 클릭
+    - IMAP/SMTP 사용함으로 설정
+    - 하단에 위치한 POP / SMTP 서버명, 포트명 기억
+2. nodemailer 설치
+    - `npm install --save nodemailer @types/nodemailer` 명령어 사용
+3. @/libs/server/email.ts 생성 및 코드 작성
+
+    - 3-1. .env 파일에 sender로 사용할 이메일과 비밀번호 저장
+        - ID의 경우 email address 형태로 저장해야함 (ex: xxx@naver.com)
+
+    ```JS
+    import nodemailer from "nodemailer";
+
+    const smtpTransport = nodemailer.createTransport({
+        service: "Naver",
+        host: "smtp.naver.com",
+        port: 465,
+        auth: {
+            user: process.env.MAIL_ID,
+            pass: process.env.MAIL_PASSWORD,
+        },
+        tls: {
+            rejectUnauthorized: false,
+        },
+    });
+
+    export default smtpTransport;
+    ```
+
+4. 메일 보내는 코드 작성
+    ```JS
+    else if (email) {
+        const mailOptions = {
+            from: process.env.MAIL_ID,
+            to: email,
+            subject: "Nomad Carrot Authentication Email",
+            text: `Authentication Code : ${payload}`,
+        };
+        const result = await smtpTransport.sendMail(
+            mailOptions,
+            (error, responses) => {
+                if (error) {
+                    console.log("occurred error while sending mail");
+                    console.log(error);
+                    return null;
+                } else {
+                    console.log(responses);
+                    return null;
+                }
+            }
+        );
+        smtpTransport.close();
+        console.log(result);
+    }
+    ```

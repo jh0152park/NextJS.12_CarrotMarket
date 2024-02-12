@@ -1,6 +1,9 @@
 import client from "@/libs/server/client";
 import withHandler, { IResponseType } from "@/libs/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
+import twilio from "twilio";
+
+const twilioClient = twilio(process.env.TWILIO_TOKEN, process.env.TWILIO_TOKEN);
 
 async function handler(
     req: NextApiRequest,

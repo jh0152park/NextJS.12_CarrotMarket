@@ -106,35 +106,39 @@ async function handler(
         },
     });
 
-    if (phoneNumber) {
-        await twilioClient.messages.create({
-            messagingServiceSid: process.env.TWILIO_MESSAGE_SID,
-            to: process.env.PHONE_NUMBER!,
-            body: `Your login token is ${payload}`,
-        });
-    } else if (email) {
-        const mailOptions = {
-            from: process.env.MAIL_ID,
-            to: email,
-            subject: "Nomad Carrot Authentication Email",
-            text: `Authentication Code : ${payload}`,
-        };
-        const result = await smtpTransport.sendMail(
-            mailOptions,
-            (error, responses) => {
-                if (error) {
-                    console.log("occurred error while sending mail");
-                    console.log(error);
-                    return null;
-                } else {
-                    console.log(responses);
-                    return null;
-                }
-            }
-        );
-        smtpTransport.close();
-        console.log(result);
-    }
+    // Free Account를 사용하고 있기 때문에
+    // 지속적으로 테스트로 인해 토큰을 유저에게 전달하게 되면
+    // 무료 할당량을 초과할 수 있으므로 일단 주석처리
+
+    // if (phoneNumber) {
+    //     await twilioClient.messages.create({
+    //         messagingServiceSid: process.env.TWILIO_MESSAGE_SID,
+    //         to: process.env.PHONE_NUMBER!,
+    //         body: `Your login token is ${payload}`,
+    //     });
+    // } else if (email) {
+    //     const mailOptions = {
+    //         from: process.env.MAIL_ID,
+    //         to: email,
+    //         subject: "Nomad Carrot Authentication Email",
+    //         text: `Authentication Code : ${payload}`,
+    //     };
+    //     const result = await smtpTransport.sendMail(
+    //         mailOptions,
+    //         (error, responses) => {
+    //             if (error) {
+    //                 console.log("occurred error while sending mail");
+    //                 console.log(error);
+    //                 return null;
+    //             } else {
+    //                 console.log(responses);
+    //                 return null;
+    //             }
+    //         }
+    //     );
+    //     smtpTransport.close();
+    //     console.log(result);
+    // }
 
     console.log(token);
     return res.json({

@@ -10,11 +10,26 @@ interface IEnterForm {
     phoneNumber?: string;
 }
 
+interface ITokenForm {
+    token: string;
+}
+
+interface IMutationResult {
+    isSuccess: boolean;
+}
+
 export default function Enter() {
     const [method, setMethod] = useState<"email" | "phone">("email");
 
     const { register, handleSubmit, reset } = useForm<IEnterForm>();
-    const [enter, { loading, data, error }] = useMutation("/api/users/enter");
+    const { register: tokenRegister, handleSubmit: tokenSubmit } =
+        useForm<ITokenForm>();
+
+    const [enter, { loading, data, error }] =
+        useMutation<IMutationResult>("/api/users/enter");
+
+    const [confirmToken, { loading: tokenLoading, data: tokenData }] =
+        useMutation<IMutationResult>("/api/users/confirm");
 
     function onEmailClick() {
         setMethod("email");
@@ -31,76 +46,110 @@ export default function Enter() {
         reset();
     }
 
-    console.log(loading, data, error);
+    function onTokenSubmit(data: FieldValues) {
+        if (tokenLoading) {
+            // already trying validation the token
+            return;
+        }
+
+        console.log("on token submit run");
+        console.log(data);
+        confirmToken(data);
+        reset();
+    }
 
     return (
         <div className="px-4 mt-16">
             <h3 className="text-3xl font-bold text-center">Enter to Carrot</h3>
             <div className="mt-8">
-                <div className="flex flex-col items-center">
-                    <h5 className="text-sm font-medium text-gray-500">
-                        Enter using:
-                    </h5>
-                    <div className="grid w-full grid-cols-2 gap-16 mt-8 border-b-2">
-                        <button
-                            className={cls(
-                                "pb-4 font-bold border-b-2",
-                                method === "email"
-                                    ? " border-orange-400 text-orange-400"
-                                    : "border-transparent text-gray-500"
-                            )}
-                            onClick={onEmailClick}
-                        >
-                            Email
-                        </button>
-                        <button
-                            className={cls(
-                                "pb-4 font-bold border-b-2",
-                                method === "phone"
-                                    ? " border-orange-400 text-orange-400"
-                                    : "border-transparent text-gray-500"
-                            )}
-                            onClick={onPhoneClick}
-                        >
-                            Phone
-                        </button>
-                    </div>
-                </div>
-                <form
-                    className="flex flex-col mt-8"
-                    onSubmit={handleSubmit(onSubmit)}
-                >
-                    {method === "email" ? (
+                {data?.isSuccess ? (
+                    <form
+                        className="flex flex-col mt-8"
+                        onSubmit={tokenSubmit(onTokenSubmit)}
+                    >
                         <Input
-                            register={register("email", {
+                            register={tokenRegister("token", {
                                 required: true,
                             })}
-                            label="Email address"
-                            name="input"
-                            kind="email"
+                            label="Confirmation Token"
+                            name="token"
+                            kind="number"
                             required
                         />
-                    ) : (
-                        <Input
-                            register={register("phoneNumber", {
-                                required: true,
-                            })}
-                            label="Phone number"
-                            name="input"
-                            kind="phone"
-                            required
+
+                        <Button
+                            name={tokenLoading ? "Loading..." : "Confirm Token"}
                         />
-                    )}
-                    <Button
-                        name={
-                            loading
-                                ? "Loading..."
-                                : method === "email"
-                                  ? "Get login link"
-                                  : "Get one-time password"
-                        }
-                    />
-                </form>
+                    </form>
+                ) : (
+                    <>
+                        <div className="flex flex-col items-center">
+                            <h5 className="text-sm font-medium text-gray-500">
+                                Enter using:
+                            </h5>
+                            <div className="grid w-full grid-cols-2 gap-16 mt-8 border-b-2">
+                                <button
+                                    className={cls(
+                                        "pb-4 font-bold border-b-2",
+                                        method === "email"
+                                            ? " border-orange-400 text-orange-400"
+                                            : "border-transparent text-gray-500"
+                                    )}
+                                    onClick={onEmailClick}
+                                >
+                                    Email
+                                </button>
+                                <button
+                                    className={cls(
+                                        "pb-4 font-bold border-b-2",
+                                        method === "phone"
+                                            ? " border-orange-400 text-orange-400"
+                                            : "border-transparent text-gray-500"
+                                    )}
+                                    onClick={onPhoneClick}
+                                >
+                                    Phone
+                                </button>
+                            </div>
+                        </div>
+                        <form
+                            className="flex flex-col mt-8"
+                            onSubmit={handleSubmit(onSubmit)}
+                        >
+                            {method === "email" ? (
+                                <Input
+                                    register={register("email", {
+                                        required: true,
+                                    })}
+                                    label="Email address"
+                                    name="input"
+                                    kind="email"
+                                    required
+                                />
+                            ) : (
+                                <Input
+                                    register={register("phoneNumber", {
+                                        required: true,
+                                    })}
+                                    label="Phone number"
+                                    name="input"
+                                    kind="phone"
+                                    required
+                                />
+                            )}
+                            <Button
+                                name={
+                                    loading
+                                        ? "Loading..."
+                                        : method === "email"
+                                          ? "Get login link"
+                                          : "Get one-time password"
+                                }
+                            />
+                        </form>
+                    </>
+                )}
+
                 <div className="mt-8">
                     <div className="relative">
                         <div className="absolute flex w-full border-t border-gray-300" />

@@ -194,15 +194,27 @@ In my case, using mac os, so just run below command to install
 
 3. we can use our models like a object with PrismaClient like as below
     ```
-    client.user.create({
+        client.user.create({
         data: {
             email: "",
             name: ""
-          }
+            }
         })
     ```
 
-# API Routes
+그니까 다른 파일에서 client를 import해서 편하게 사용하도록 함, 마치 Firebase의 app처럼
+
+그리고 client를 사용하면 client.user.create와 같이 바로 schema.prisma에 작성한 모델들을 제어할 수 있게됨
+
+# ✨ Prisma Studio
+
+`npx prisma studio` 명령어를 통해서 사용할 수 있음
+
+중요한건 planetscale이 현재 연결이 된 상태여야함(즉 pscale connect 명령어가 선행되어야 한다는 의미)
+
+그러면 터미널에 찍힌 url을 통해서 planetscale에 저장되는 db를 prisma studio를 통해서 간단하게 확인할 수 있게됨
+
+# ✨ API Routes
 
 We can not control and manage our DB directly at frontend side.
 
@@ -218,7 +230,7 @@ DOC: https://www.twilio.com/docs
 
 무료로 계정을 만들면 15$ 정도 트라이얼을 받을 수 있는데, 추후 결제가 필요하지만 당장 기능구현 및 맛을 보는건 가능함
 
-### 회원가입 및 문자 보내는 방법
+### 회원가입 및 기본 셋업
 
 1. Google Account로 회원가입
 2. 핸드폰번호 인증
@@ -256,3 +268,7 @@ DOC: https://www.twilio.com/docs
     - ![alt text](https://github.com/jh0152park/NextJS.12_CarrotMarket/blob/30c0d0dff9f56234052a196e507d67b401851eb3/image-5.png?raw=true)
     - ![alt text](https://github.com/jh0152park/NextJS.12_CarrotMarket/blob/30c0d0dff9f56234052a196e507d67b401851eb3/image-6.png?raw=true)
 10. 여기서 중요한건 해당 계정으로는 진짜로 입력받는 핸드폰 번호한테 문자를 보낼 수 없음 (트라이얼 계정이기 때문에)
+
+### Twilio sdk 설치
+
+-   run `npm i twilio`

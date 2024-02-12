@@ -356,3 +356,23 @@ if (phoneNumber) {
         console.log(result);
     }
     ```
+
+# ✨ Iron Session
+
+설치: `npm install iron-session` (강의버전은 npm install iron-session@6.3.1)
+
+Doc: https://github.com/vvo/iron-session?tab=readme-ov-file#installation
+
+Iron session
+데이터를 저장하기 위해 서명되고 암호화된 쿠키를 사용하는 Node.js stateless session 유틸리티.
+
+Next.js, Express, Nest.js, Fastify 및 모든 Node.js HTTP 프레임워크와 함께 작동합니다. 세션 데이터는 암호화된 쿠키("seals")에 저장됩니다.
+
+그리고 당신의 서버만이 세션 데이터를 디코딩(decode)할 수 있습니다. 세션 ID가 없으므로 서버 관점에서 iron session을 "stateless"로 만듭니다.
+
+req.session.save()
+세션 데이터를 암호화하고 쿠키를 설정합니다.
+
+# ✨ Password 생성 사이트
+
+URL: https://passwordsgenerator.net/

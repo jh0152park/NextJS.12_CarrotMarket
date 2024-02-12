@@ -2,7 +2,8 @@ import Button from "@/components/button";
 import Input from "@/components/input";
 import useMutation from "@/libs/client/useMutation";
 import { cls } from "@/libs/client/utils";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 
 interface IEnterForm {
@@ -19,6 +20,7 @@ interface IMutationResult {
 }
 
 export default function Enter() {
+    const router = useRouter();
     const [method, setMethod] = useState<"email" | "phone">("email");
 
     const { register, handleSubmit, reset } = useForm<IEnterForm>();
@@ -53,10 +55,15 @@ export default function Enter() {
         }
 
         console.log("on token submit run");
-        console.log(data);
         confirmToken(data);
         reset();
     }
+
+    useEffect(() => {
+        if (tokenData?.isSuccess) {
+            router.push("/");
+        }
+    }, [tokenData, router]);
 
     return (
         <div className="px-4 mt-16">

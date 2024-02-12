@@ -12,7 +12,7 @@ async function handler(
 ) {
     const { email, phoneNumber } = req.body;
     const user = phoneNumber
-        ? { phoneNumber: +phoneNumber }
+        ? { phoneNumber: phoneNumber }
         : email
           ? { email: email }
           : null;

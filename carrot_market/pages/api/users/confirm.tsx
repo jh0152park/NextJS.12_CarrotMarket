@@ -1,16 +1,7 @@
-import { cookies } from "next/headers";
-import { withIronSessionApiRoute } from "iron-session/next";
 import client from "@/libs/server/client";
 import withHandler, { IResponseType } from "@/libs/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
-
-declare module "iron-session" {
-    interface IronSessionData {
-        user?: {
-            id: number;
-        };
-    }
-}
+import { withApiSession } from "@/libs/server/withSession";
 
 async function handler(
     req: NextApiRequest,
@@ -28,17 +19,22 @@ async function handler(
         return res.status(404).end();
     }
 
-    console.log(`received token at api/users/confirm side is: ${token}`);
+    // User가 입력한 토큰이 랜덤하게 만든 토큰과 일치하면
+    // 토큰을 보유한 user id를 req.session.user에 넣음
     req.session.user = {
         id: isExistToken.userId,
     };
-    // user에게 쿠키 주기
+    // 세션 저장
     await req.session.save();
-    res.status(200).end();
+    // 해당 유저가 갖고있는 토큰 모두 삭제 (쓸데없이 많이 만들 필요 없으니)
+    await client.token.deleteMany({
+        where: {
+            userId: isExistToken.userId,
+        },
+    });
+    res.json({
+        isSuccess: true,
+    });
 }
 
-export default withIronSessionApiRoute(withHandler("POST", handler), {
-    cookieName: "carrotsession",
-    password:
-        "carrotmarkettestpassword1!carrotmarkettestpassword1!carrotmarkettestpassword1!carrotmarkettestpassword1!",
-});
+export default withApiSession(withHandler("POST", handler));

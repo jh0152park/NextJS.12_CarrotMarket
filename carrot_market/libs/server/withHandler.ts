@@ -3,6 +3,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 type TMethod = "GET" | "POST" | "PUT" | "DELETE";
 type THandler = (req: NextApiRequest, res: NextApiResponse) => void;
 
+export interface IResponseType {
+    isSuccess: boolean;
+    [key: string]: any;
+}
+
 export default function withHandler(method: TMethod, handler: THandler) {
     return async function (req: NextApiRequest, res: NextApiResponse) {
         if (req.method !== method) {

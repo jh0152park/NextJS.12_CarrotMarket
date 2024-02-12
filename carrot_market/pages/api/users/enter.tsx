@@ -1,12 +1,25 @@
 import client from "@/libs/server/client";
-import withHandler from "@/libs/server/withHandler";
+import withHandler, { IResponseType } from "@/libs/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
+async function handler(
+    req: NextApiRequest,
+    res: NextApiResponse<IResponseType>
+) {
     const { email, phoneNumber } = req.body;
-    const payload = phoneNumber
+    const user = phoneNumber
         ? { phoneNumber: +phoneNumber }
-        : { email: email };
+        : email
+          ? { email: email }
+          : null;
+
+    if (!user) {
+        return res.status(400).json({
+            isSuccess: false,
+        });
+    }
+
+    const payload = Math.floor(100000 + Math.random() * 900000) + "";
 
     console.log(req.body);
 
@@ -59,7 +72,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const token = await client.token.create({
         data: {
-            playload: "123123",
+            playload: payload,
             user: {
                 /**
                  * upsert를 사용해서 유져가 있는지 찾고, 없다면 생성하도록 한 다음
@@ -77,11 +90,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                  */
                 connectOrCreate: {
                     where: {
-                        ...payload,
+                        ...user,
                     },
                     create: {
                         name: "Anonymous",
-                        ...payload,
+                        ...user,
                     },
                 },
             },
@@ -89,7 +102,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     });
 
     console.log(token);
-    return res.status(200).end();
+    return res.json({
+        isSuccess: true,
+    });
 }
 
 export default withHandler("POST", handler);

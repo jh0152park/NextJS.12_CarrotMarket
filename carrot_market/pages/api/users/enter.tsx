@@ -3,7 +3,7 @@ import withHandler, { IResponseType } from "@/libs/server/withHandler";
 import { NextApiRequest, NextApiResponse } from "next";
 import twilio from "twilio";
 
-const twilioClient = twilio(process.env.TWILIO_TOKEN, process.env.TWILIO_TOKEN);
+const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
 
 async function handler(
     req: NextApiRequest,
@@ -103,6 +103,14 @@ async function handler(
             },
         },
     });
+
+    if (phoneNumber) {
+        await twilioClient.messages.create({
+            messagingServiceSid: process.env.TWILIO_MESSAGE_SID,
+            to: process.env.PHONE_NUMBER!,
+            body: `Your login token is ${payload}`,
+        });
+    }
 
     console.log(token);
     return res.json({

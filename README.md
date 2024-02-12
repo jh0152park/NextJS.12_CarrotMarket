@@ -209,3 +209,50 @@ We can not control and manage our DB directly at frontend side.
 So we need server side to control and manage our DB, So created a new folder `api` under `pages` folder
 
 # ✨ Twilo
+
+트윌리오는 Voice call, Video call, Message, Email을 보낼 수 있도록 서비스하는 web api같은 거임
+
+홈페이지: https://www.twilio.com/
+
+DOC: https://www.twilio.com/docs
+
+무료로 계정을 만들면 15$ 정도 트라이얼을 받을 수 있는데, 추후 결제가 필요하지만 당장 기능구현 및 맛을 보는건 가능함
+
+### 회원가입 및 문자 보내는 방법
+
+1. Google Account로 회원가입
+2. 핸드폰번호 인증
+3. 리커버리 코드 안전한곳에 보관하기
+4. 아래처럼 간단한 설정 마무리 하기 (각자 용도, 상황에 맞게 설정하면 됨)
+    - What do you plan to build with Twilio? => `Alerts & Notifications`
+    - Which Twilio product are you here to use? => `SMS`
+    - Which best describes you/your organization? => `Hobbyist or Student`
+    - How do you want to build with Twilio? => `With code`
+    - What is your preferred coding language? => `JavaScript`
+    - Would you like Twilio to host your code? => `No`
+5. 완료 후 무료 사용량 15$
+    - ![alt text](image.png)
+6. Account SID 및 토큰을 .env 파일에 복사
+    - ![alt text](image-1.png)
+7. 좌측 메뉴 Messaging -> Servics -> Create Messaging Service
+    - 7-1. Service Name은 프로젝트를 알아볼 수 있게
+    - 7-2. Select what you want to use Messaging for => Notify my users
+    - 7-3. Create Messaging Service 클릭
+8. Sender Pool로 넘어가면 좌측 메뉴 Messaging -> Try it out -> Send an SMS
+    - 8-1. Get Twilio Number를 눌러서 번호 할당 받기
+    - 8-2. 좌측 메뉴 Try it out -> Services
+    - 8-3. 생성한 프로젝트가 ⚠️ 표시와 함께 마우스를 올려보면 "You must add one or more sender"라고 표시됨
+        - ![alt text](image-2.png)
+    - 8-4. 프로젝트 클릭
+    - 8-5. Add Senders 클릭
+    - 8-6. Sender Types는 Phone Number 후 Continue
+    - 8-7. 생성했던 Phone Number를 선택 후 Add Phone Number 클릭
+        - ![alt text](image-3.png)
+9. 좌측메뉴 Messaging -> Try it out -> Send an SMS
+    - 9-1. From Sender Phone Number를 방금 추가했던 번호로 선택
+    - 9-2. To 부분 선택 (가상번호 or 진짜번호)
+    - 9-3. 보낼 메세지 입력 후 전송버튼 클릭
+    - ![alt text](image-4.png)
+    - ![alt text](image-5.png)
+    - ![alt text](image-6.png)
+10. 여기서 중요한건 해당 계정으로는 진짜로 입력받는 핸드폰 번호한테 문자를 보낼 수 없음 (트라이얼 계정이기 때문에)

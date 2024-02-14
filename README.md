@@ -376,3 +376,13 @@ req.session.save()
 # ✨ Password 생성 사이트
 
 URL: https://passwordsgenerator.net/
+
+# ✨ SWR(Stale While Revalidate)
+
+React Hooks for Data Fetching.
+
+Install: `npm install swr`
+
+useQuery하고 비슷함, fetching한 데이터를 cache해서 데이터가 변하지 않는다면 다시 fetch하지않고 cached된 데이터를 바로 사용할 수 있게 함.
+
+그리고 다른탭에 있다가 돌아오면 알아서 refresh를 하면서 latest상태로 update를 해줌

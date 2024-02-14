@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-
 type TMethod = "GET" | "POST" | "PUT" | "DELETE";
 type THandler = (req: NextApiRequest, res: NextApiResponse) => void;
 
@@ -8,7 +7,17 @@ export interface IResponseType {
     [key: string]: any;
 }
 
-export default function withHandler(method: TMethod, handler: THandler) {
+interface IConfigProps {
+    method: TMethod;
+    handler: THandler;
+    isPrivate?: boolean;
+}
+
+export default function withHandler({
+    method,
+    handler,
+    isPrivate = true,
+}: IConfigProps) {
     return async function (
         req: NextApiRequest,
         res: NextApiResponse
@@ -16,6 +25,14 @@ export default function withHandler(method: TMethod, handler: THandler) {
         if (req.method !== method) {
             return res.status(405).end();
         }
+
+        if (isPrivate && !req.session.user) {
+            return res.status(401).json({
+                isSuccess: false,
+                message: "Please login",
+            });
+        }
+
         try {
             await handler(req, res);
         } catch (error) {

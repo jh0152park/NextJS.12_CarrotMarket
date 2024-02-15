@@ -17,6 +17,7 @@ interface IProduct extends Product {
 interface IProductResponse {
     isSuccess: boolean;
     product: IProduct;
+    relatedProduct: Product[];
 }
 
 const ItemDetail: NextPage = () => {
@@ -81,20 +82,25 @@ const ItemDetail: NextPage = () => {
                     </div>
                 </div>
                 <div className="mb-8">
-                    <h2 className="text-2xl font-bold text-gray-900">
+                    <h2 className="mt-5 text-2xl font-bold text-gray-900">
                         Similar items
                     </h2>
                     <div className="grid grid-cols-2 gap-4 mt-6">
-                        {[1, 2, 3, 4, 5, 6].map((_, i) => (
-                            <div key={i}>
-                                <div className="w-full h-56 mb-4 bg-slate-300" />
-                                <h3 className="-mb-1 text-gray-700">
-                                    Galaxy S60
-                                </h3>
-                                <span className="text-sm font-medium text-gary-900">
-                                    $6
-                                </span>
-                            </div>
+                        {data?.relatedProduct.map((product) => (
+                            <Link
+                                href={`/products/${product.id}`}
+                                legacyBehavior
+                            >
+                                <a key={product.id}>
+                                    <div className="w-full h-56 mb-4 bg-slate-300" />
+                                    <h3 className="-mb-1 text-gray-700">
+                                        {product.name}
+                                    </h3>
+                                    <span className="text-sm font-medium text-gary-900">
+                                        {product.price}
+                                    </span>
+                                </a>
+                            </Link>
                         ))}
                     </div>
                 </div>

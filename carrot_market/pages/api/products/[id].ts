@@ -28,7 +28,28 @@ async function handler(
         },
     });
 
-    res.json({ isSuccess: true, product: product });
+    const related = product?.name.split(" ").map((word) => ({
+        name: {
+            contains: word,
+        },
+    }));
+
+    const relatedProduct = await client.product.findMany({
+        where: {
+            OR: related,
+            AND: {
+                id: {
+                    not: product?.id,
+                },
+            },
+        },
+    });
+
+    res.json({
+        isSuccess: true,
+        product: product,
+        relatedProduct: relatedProduct,
+    });
 }
 
 export default withApiSession(

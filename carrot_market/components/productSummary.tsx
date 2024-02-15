@@ -18,7 +18,7 @@ export default function ProductSummary({
     id,
 }: ProductSummaryProps) {
     return (
-        <Link href={`items/${id}`} legacyBehavior>
+        <Link href={`/products/${id}`} legacyBehavior>
             <a className="flex justify-between px-4 pb-4 border-b cursor-pointer">
                 <div className="flex space-x-4">
                     <div className="w-20 h-20 bg-gray-400 rounded-md" />

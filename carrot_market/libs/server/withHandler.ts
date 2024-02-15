@@ -8,13 +8,13 @@ export interface IResponseType {
 }
 
 interface IConfigProps {
-    method: TMethod;
+    methods: TMethod[];
     handler: THandler;
     isPrivate?: boolean;
 }
 
 export default function withHandler({
-    method,
+    methods,
     handler,
     isPrivate = true,
 }: IConfigProps) {
@@ -22,7 +22,7 @@ export default function withHandler({
         req: NextApiRequest,
         res: NextApiResponse
     ): Promise<any> {
-        if (req.method !== method) {
+        if (req.method && !methods.includes(req.method as any)) {
             return res.status(405).end();
         }
 

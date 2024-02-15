@@ -25,7 +25,7 @@ interface IProductResponse {
 
 const ItemDetail: NextPage = () => {
     const router = useRouter();
-    const { data } = useSWR<IProductResponse>(
+    const { data, mutate } = useSWR<IProductResponse>(
         router.query ? `/api/products/${router.query.id}` : null
     );
     const [toggleFavorite] = useMutation(
@@ -34,6 +34,8 @@ const ItemDetail: NextPage = () => {
 
     function onFavoriteClick() {
         toggleFavorite({});
+        if (!data) return;
+        mutate({ ...data, isLiked: !data.isLiked }, false);
     }
 
     return (

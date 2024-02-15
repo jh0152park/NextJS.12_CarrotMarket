@@ -386,3 +386,48 @@ Install: `npm install swr`
 useQuery하고 비슷함, fetching한 데이터를 cache해서 데이터가 변하지 않는다면 다시 fetch하지않고 cached된 데이터를 바로 사용할 수 있게 함.
 
 그리고 다른탭에 있다가 돌아오면 알아서 refresh를 하면서 latest상태로 update를 해줌
+
+```
+// 여기서 /api/users/me는 단순히 url도 의미하지만, 동시에 key값이기도 하다
+
+const {data, error} = useSWR("/api/users/me")
+```
+
+mutate(bound, unbound), refresh 하는 방법
+
+bound와 unbound의 차이는 bound는 현재 컴포넌트, 현재 페이지에서 fetch한 data의 일부 상태를 업데이트 하는것을 의미하고, unbound는 다른 컴포넌트, 다른 페이지에서 사용하는 fetch한 data의 상태를 업데이트 시킬 수 있다.
+
+즉 unbound한 mutate를 사용하면 `/pages/products/index.tsx`에서 `/pages/messages/index.tsx`에서 사용하고 있는 fetch한 데이터의 상태를 업데이트 시킬수 있다.
+
+-   bound한 mutate
+
+    ```JS
+    const {data, mutate} = useSWR("/api/products");
+    mutate((prev) => && prev && {...prev, key:update value}, false);
+    //or
+    boundMutate({ ...data, isLiked: !data.isLiked }, false);
+
+    // 여기서 두번째 인자의 default값은 true인데,
+    // true일 경우 mustae 즉 업데이트가 완료된 후, 자동으로 업데이트한 값이 유효한지 체크하는걸 의미하고
+    // false일 경우 이 행위를 하지 않는다. 즉 ture일 경우 다시한번 fetch한다
+    ```
+
+-   unbound한 mutate
+
+    ```JS
+    //pages/products/index.tsx
+    const {mutate} = useSWRConfig();
+    mutate("/api/user/me", (prev:any) => ({isSuccess: !prev.isSuccess}), false);
+
+    // 첫번째 인자로 specific한 key값이 필요한데, useSWR에 사용하느 url은 단순한 url이 아니라 동시에 key이다.
+    // 2,3 번째의 인자는 bound한 mutate의 1,2번째 인자와 동일하다
+    ```
+
+-   단순한 refetch
+
+    ```JS
+    const {mutate} = useSWRConfig();
+    mutate("/api/user/me");
+
+    // key값만 넣어주면 된다
+    ```

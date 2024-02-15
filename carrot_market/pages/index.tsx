@@ -2,10 +2,20 @@ import FloatingButton from "@/components/floatingButton";
 import Layout from "@/components/layout";
 import ProductSummary from "@/components/productSummary";
 import useUser from "@/libs/client/useUser";
+import { Product } from "@prisma/client";
 import Head from "next/head";
+import useSWR from "swr";
+
+interface IProductResponse {
+    isSuccess: boolean;
+    products: Product[];
+}
 
 export default function Home() {
     const { user, isLoading } = useUser();
+    const { data } = useSWR<IProductResponse>("/api/products");
+
+    console.log(data);
 
     return (
         <Layout title="홈" hasTabBar>
@@ -13,15 +23,15 @@ export default function Home() {
                 <title>Home</title>
             </Head>
             <div className="flex flex-col py-10 space-y-5">
-                {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
+                {data?.products?.map((product) => (
                     <ProductSummary
-                        product="iPhone 20 Pro Max"
-                        description="White"
-                        price={200}
+                        id={product.id}
+                        key={product.id}
+                        product={product.name}
+                        description={product.description}
+                        price={product.price}
                         like={1}
                         message={1}
-                        id={i}
-                        key={i}
                     />
                 ))}
                 <FloatingButton href="/products/upload">

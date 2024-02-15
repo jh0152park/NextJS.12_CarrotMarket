@@ -24,7 +24,7 @@ export default function Home() {
                         key={i}
                     />
                 ))}
-                <FloatingButton href="/items/upload">
+                <FloatingButton href="/products/upload">
                     <svg
                         className="w-6 h-6"
                         xmlns="http://www.w3.org/2000/svg"

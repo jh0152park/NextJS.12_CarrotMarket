@@ -6,9 +6,16 @@ import { Product } from "@prisma/client";
 import Head from "next/head";
 import useSWR from "swr";
 
+interface IProduct extends Product {
+    _count: {
+        favorite: number;
+        message: number;
+    };
+}
+
 interface IProductResponse {
     isSuccess: boolean;
-    products: Product[];
+    products: IProduct[];
 }
 
 export default function Home() {
@@ -30,7 +37,7 @@ export default function Home() {
                         product={product.name}
                         description={product.description}
                         price={product.price}
-                        like={1}
+                        like={product._count.favorite}
                         message={1}
                     />
                 ))}

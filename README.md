@@ -375,6 +375,8 @@ req.session.save()
 
 # ✨ Password 생성 사이트
 
+Sesstion Password의 최소 길이가 32자이고, 아래 홈페이지를 이용해서 원하는 조건의 패스워드를 생성할 수 있음
+
 URL: https://passwordsgenerator.net/
 
 # ✨ SWR(Stale While Revalidate)

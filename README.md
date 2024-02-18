@@ -210,7 +210,7 @@ In my case, using mac os, so just run below command to install
 
 `npx prisma studio` 명령어를 통해서 사용할 수 있음
 
-중요한건 planetscale이 현재 연결이 된 상태여야함(즉 pscale connect 명령어가 선행되어야 한다는 의미)
+중요한건 planetscale이 현재 연결이된 상태여야함(즉 pscale connect 명령어가 선행되어야 한다는 의미)
 
 그러면 터미널에 찍힌 url을 통해서 planetscale에 저장되는 db를 prisma studio를 통해서 간단하게 확인할 수 있게됨
 

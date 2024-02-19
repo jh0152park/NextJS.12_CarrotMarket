@@ -36,8 +36,8 @@ const ItemDetail: NextPage = () => {
     );
 
     function onFavoriteClick() {
-        toggleFavorite({});
         if (!data) return;
+        toggleFavorite({});
         boundMutate({ ...data, isLiked: !data.isLiked }, false);
     }
 

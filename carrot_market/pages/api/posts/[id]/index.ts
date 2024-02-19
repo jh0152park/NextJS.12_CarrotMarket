@@ -8,6 +8,7 @@ async function handler(
     res: NextApiResponse<IResponseType>
 ) {
     const id = req.query.id;
+    const user = req.session.user;
 
     const post = await client.post.findUnique({
         where: {
@@ -43,9 +44,22 @@ async function handler(
         },
     });
 
+    const isWondering = Boolean(
+        await client.wondering.findFirst({
+            where: {
+                postId: Number(id),
+                userId: user?.id,
+            },
+            select: {
+                id: true,
+            },
+        })
+    );
+
     res.json({
         isSuccess: post ? true : false,
         post: post,
+        isWondering,
     });
 }
 

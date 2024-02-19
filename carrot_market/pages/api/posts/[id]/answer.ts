@@ -9,50 +9,44 @@ async function handler(
 ) {
     const id = req.query.id;
     const user = req.session.user;
+    const userAnswer = req.body.answer;
 
     if (!id) {
         res.json({ isSuccess: false });
     }
 
-    const isExist = await client.wondering.findFirst({
+    const post = await client.post.findUnique({
         where: {
-            userId: user?.id,
-            postId: Number(id),
+            id: Number(id),
         },
         select: {
             id: true,
         },
     });
 
-    if (!isExist) {
+    if (!post) {
         return res.status(404).json({ isSuccess: false });
     }
 
-    if (isExist) {
-        await client.wondering.delete({
-            where: {
-                id: isExist.id,
-            },
-        });
-    } else {
-        await client.wondering.create({
-            data: {
-                user: {
-                    connect: {
-                        id: user?.id,
-                    },
-                },
-                post: {
-                    connect: {
-                        id: Number(id),
-                    },
+    const answer = await client.answer.create({
+        data: {
+            user: {
+                connect: {
+                    id: user?.id,
                 },
             },
-        });
-    }
+            post: {
+                connect: {
+                    id: Number(id),
+                },
+            },
+            answer: userAnswer,
+        },
+    });
 
     res.json({
         isSuccess: true,
+        answer,
     });
 }
 

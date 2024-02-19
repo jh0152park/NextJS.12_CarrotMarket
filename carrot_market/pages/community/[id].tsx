@@ -8,6 +8,7 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { FieldValues, useForm } from "react-hook-form";
 import useSWR from "swr";
 
 interface IAnswer extends Answer {
@@ -29,12 +30,30 @@ interface IData {
     isWondering: boolean;
 }
 
+interface IAnswer {
+    answer: string;
+}
+
+interface IAnswerResponse {
+    isSuccess: boolean;
+    answer: Answer;
+}
+
 const CommunityPostDetail: NextPage = () => {
     const router = useRouter();
+
     const { data, mutate } = useSWR<IData>(
         router.query.id ? `/api/posts/${router.query.id}` : null
     );
-    const [wonder] = useMutation(`/api/posts/${router.query.id}/wonder`);
+
+    const [wonder, { loading }] = useMutation(
+        `/api/posts/${router.query.id}/wonder`
+    );
+
+    const [sendAnswer, { data: answerData, loading: answerLoading }] =
+        useMutation<IAnswerResponse>(`/api/posts/${router.query.id}/answer`);
+
+    const { register, reset, handleSubmit } = useForm<IAnswer>();
 
     function onWonderClick() {
         if (!data) return;
@@ -55,7 +74,13 @@ const CommunityPostDetail: NextPage = () => {
             },
             false
         );
-        wonder({});
+        if (!loading) wonder({});
+    }
+
+    function onSubmit(data: IAnswer | FieldValues) {
+        if (answerLoading) return;
+        console.log(data);
+        sendAnswer(data);
     }
 
     useEffect(() => {
@@ -64,6 +89,13 @@ const CommunityPostDetail: NextPage = () => {
             router.push("/community");
         }
     }, [data]);
+
+    useEffect(() => {
+        if (answerData && answerData.isSuccess) {
+            reset();
+            console.log(answerData);
+        }
+    }, [answerData, reset]);
 
     return (
         <Layout canGoBack>
@@ -151,7 +183,7 @@ const CommunityPostDetail: NextPage = () => {
                                     {answer.user.name}
                                 </span>
                                 <span className="block text-xs text-gray-500">
-                                    {answer.createdAt.toISOString()}
+                                    {answer.createdAt?.toISOString()}
                                 </span>
                                 <p className="mt-2 text-gray-700">
                                     {answer.answer}
@@ -161,10 +193,14 @@ const CommunityPostDetail: NextPage = () => {
                     ))}
                 </div>
 
-                <div className="px-4 mt-5">
-                    <Textarea label="Answer" placeholder="Answer" />
-                    <Button name="Reply" />
-                </div>
+                <form className="px-4 mt-5" onSubmit={handleSubmit(onSubmit)}>
+                    <Textarea
+                        register={register("answer", { required: true })}
+                        label=""
+                        placeholder="Answer"
+                    />
+                    <Button name={answerLoading ? "Loading" : "Reply"} />
+                </form>
             </div>
         </Layout>
     );

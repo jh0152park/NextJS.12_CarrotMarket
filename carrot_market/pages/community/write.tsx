@@ -35,7 +35,7 @@ export default function Write() {
     }, [data, router]);
 
     return (
-        <Layout canGoBack>
+        <Layout canGoBack title="Write Post">
             <form className="px-4 py-10" onSubmit={handleSubmit(onSubmit)}>
                 <Textarea
                     register={register("question", { required: true })}

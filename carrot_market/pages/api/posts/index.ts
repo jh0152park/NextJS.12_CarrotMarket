@@ -9,11 +9,15 @@ async function handler(
 ) {
     const user = req.session.user;
     const question = req.body.question;
+    const latitude = req.body.latitude;
+    const longitude = req.body.longitude;
 
     if (req.method === "POST") {
         const post = await client.post.create({
             data: {
                 question: question,
+                latitude: latitude,
+                longitude: longitude,
                 user: {
                     connect: {
                         id: user?.id,

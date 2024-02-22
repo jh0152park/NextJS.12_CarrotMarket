@@ -74,7 +74,10 @@ const CommunityPostDetail: NextPage = () => {
             },
             false
         );
-        if (!loading) wonder({});
+        if (!loading) {
+            console.log("trigger wonder");
+            wonder({});
+        }
     }
 
     function onSubmit(data: IAnswer | FieldValues) {
@@ -94,8 +97,9 @@ const CommunityPostDetail: NextPage = () => {
         if (answerData && answerData.isSuccess) {
             reset();
             console.log(answerData);
+            mutate();
         }
-    }, [answerData, reset]);
+    }, [answerData, reset, mutate]);
 
     return (
         <Layout canGoBack>
@@ -106,7 +110,7 @@ const CommunityPostDetail: NextPage = () => {
                 <div className="flex items-center px-4 py-3 mb-3 space-x-3  border-b cursor-pointer">
                     <div className="w-10 h-10 rounded-full bg-slate-300" />
                     <Link
-                        href={`/users/profiles/${data?.post.user.id}`}
+                        href={`/users/profiles/${data?.post?.user.id}`}
                         legacyBehavior
                     >
                         <a>

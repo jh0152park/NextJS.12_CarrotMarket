@@ -24,10 +24,6 @@ async function handler(
         },
     });
 
-    if (!isExist) {
-        return res.status(404).json({ isSuccess: false });
-    }
-
     if (isExist) {
         await client.wondering.delete({
             where: {

@@ -1,5 +1,6 @@
 import FloatingButton from "@/components/floatingButton";
 import Layout from "@/components/layout";
+import useCoords from "@/libs/client/useCoords";
 import { Post, User } from "@prisma/client";
 import type { NextPage } from "next";
 import Link from "next/link";
@@ -19,9 +20,10 @@ interface IPostsResponse {
 }
 
 const Community: NextPage = () => {
-    const { data } = useSWR<IPostsResponse>("/api/posts");
-
-    console.log(data);
+    const { latitude, longitude } = useCoords();
+    const { data } = useSWR<IPostsResponse>(
+        `/api/posts?latitude=${latitude}&longitude=${longitude}`
+    );
 
     return (
         <Layout title="동네생활" hasTabBar>

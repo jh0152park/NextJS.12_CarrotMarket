@@ -9,10 +9,11 @@ async function handler(
 ) {
     const user = req.session.user;
     const question = req.body.question;
-    const latitude = req.body.latitude;
-    const longitude = req.body.longitude;
 
     if (req.method === "POST") {
+        const latitude = req.body.latitude;
+        const longitude = req.body.longitude;
+
         const post = await client.post.create({
             data: {
                 question: question,
@@ -31,6 +32,11 @@ async function handler(
             post: post,
         });
     } else if (req.method === "GET") {
+        const latitude = req.query.latitude;
+        const longitude = req.query.longitude;
+        const latitudeNumber = parseFloat(latitude!.toString());
+        const longitudeNumber = parseFloat(longitude!.toString());
+
         const posts = await client.post.findMany({
             include: {
                 user: {
@@ -45,6 +51,16 @@ async function handler(
                         wondering: true,
                         answers: true,
                     },
+                },
+            },
+            where: {
+                latitude: {
+                    gte: latitudeNumber - 0.01,
+                    lte: latitudeNumber + 0.01,
+                },
+                longitude: {
+                    gte: longitudeNumber - 0.01,
+                    lte: longitudeNumber + 0.01,
                 },
             },
         });

@@ -1,6 +1,7 @@
 import Button from "@/components/button";
 import Layout from "@/components/layout";
 import Textarea from "@/components/textarea";
+import useCoords from "@/libs/client/useCoords";
 import useMutation from "@/libs/client/useMutation";
 import { Post } from "@prisma/client";
 import { useRouter } from "next/router";
@@ -18,14 +19,20 @@ interface IWriteResponse {
 
 export default function Write() {
     const router = useRouter();
+    const { latitude, longitude } = useCoords();
+
     const [post, { loading, data }] = useMutation<IWriteResponse>("/api/posts");
     const { register, reset, handleSubmit } = useForm<IWriteForm>();
 
     function onSubmit(data: IWriteForm | FieldValues) {
         if (loading) return;
 
-        console.log(data);
-        post(data);
+        post({
+            ...data,
+            latitude,
+            longitude,
+        });
+        reset();
     }
 
     useEffect(() => {

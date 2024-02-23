@@ -112,6 +112,7 @@ model Review {
   createdFor   User     @relation(name: "reveivedReviews", fields: [createdForId], references: [id], onDelete: Cascade)
   userId       Int
   createdForId Int
+  score        Int      @default(1)
 
   @@index([userId])
   @@index([createdForId])

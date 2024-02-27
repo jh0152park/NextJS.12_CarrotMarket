@@ -3,7 +3,7 @@ import useSWR from "swr";
 import ProductSummary from "./productSummary";
 
 interface IProductListProps {
-    kind: "favorite" | "sales" | "purchases";
+    kind: "favorites" | "sales" | "purchases";
 }
 
 interface IRecord {
@@ -20,8 +20,6 @@ export default function ProductList({ kind }: IProductListProps) {
     if (!data) {
         return null;
     }
-
-    console.log(data);
 
     return (
         <>

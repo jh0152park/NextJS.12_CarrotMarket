@@ -5,7 +5,7 @@ export default function Love() {
     return (
         <Layout canGoBack title="관심목록">
             <div className="flex flex-col py-10 space-y-5">
-                <ProductList kind="favorite" />
+                <ProductList kind="favorites" />
             </div>
         </Layout>
     );

@@ -1,21 +1,12 @@
 import Layout from "@/components/layout";
+import ProductList from "@/components/productList";
 import ProductSummary from "@/components/productSummary";
 
 export default function Sold() {
     return (
-        <Layout canGoBack>
+        <Layout canGoBack title="판매내역">
             <div className="flex flex-col py-10 space-y-5">
-                {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
-                    <ProductSummary
-                        product="iPhone 20 Pro Max"
-                        description="White"
-                        price={200}
-                        like={99}
-                        message={123}
-                        id={i}
-                        key={i}
-                    />
-                ))}
+                <ProductList kind="sales" />
             </div>
         </Layout>
     );

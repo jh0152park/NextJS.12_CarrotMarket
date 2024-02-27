@@ -6,7 +6,7 @@ import { Product } from "@prisma/client";
 import Head from "next/head";
 import useSWR from "swr";
 
-interface IProduct extends Product {
+export interface IProduct extends Product {
     _count: {
         favorite: number;
         message: number;

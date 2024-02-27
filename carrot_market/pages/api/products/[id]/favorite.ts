@@ -21,10 +21,6 @@ async function handler(
         },
     });
 
-    if (!isExist) {
-        return res.status(404).json({ isSuccess: false });
-    }
-
     if (isExist) {
         // delete item from favorite list
         await client.favorite.delete({

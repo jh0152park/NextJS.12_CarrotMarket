@@ -1,6 +1,7 @@
 import Button from "@/components/button";
 import Input from "@/components/input";
 import Layout from "@/components/layout";
+import useMutation from "@/libs/client/useMutation";
 import useUser from "@/libs/client/useUser";
 import { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
@@ -8,7 +9,13 @@ import { FieldValues, useForm } from "react-hook-form";
 interface IEditProfileForm {
     email?: string;
     phone?: string;
+    name?: string;
     formError?: string;
+}
+
+interface IEditProfileResponse {
+    isSuccess: boolean;
+    error?: string;
 }
 
 export default function Edit() {
@@ -21,6 +28,20 @@ export default function Edit() {
         setError,
         formState: { errors },
     } = useForm<IEditProfileForm>();
+    const [editProfile, { data, loading }] =
+        useMutation<IEditProfileResponse>("/api/users/me");
+
+    function onSubmit({ email, phone, name }: IEditProfileForm | FieldValues) {
+        if (loading) return;
+
+        if (email === "" && phone === "" && name === "") {
+            return setError("formError", {
+                message:
+                    "Email or Phone Number is required. You need to choose one.",
+            });
+        }
+        editProfile({ email, phone, name });
+    }
 
     useEffect(() => {
         if (user?.email) {
@@ -29,17 +50,16 @@ export default function Edit() {
         if (user?.phoneNumber) {
             setValue("phone", user.phoneNumber);
         }
+        if (user?.name) {
+            setValue("name", user.name);
+        }
     }, [user, setValue]);
 
-    function onSubmit(form: IEditProfileForm | FieldValues) {
-        console.log(form);
-        if (form.email === "" && form.phone === "") {
-            setError("formError", {
-                message:
-                    "Email or Phone Number is required. You need to choose one.",
-            });
+    useEffect(() => {
+        if (data && !data.isSuccess) {
+            setError("formError", { message: data.error });
         }
-    }
+    }, [data, setError]);
 
     return (
         <Layout canGoBack>
@@ -64,6 +84,12 @@ export default function Edit() {
                 </div>
 
                 <Input
+                    label="Name"
+                    name="name"
+                    kind="text"
+                    register={register("name")}
+                />
+                <Input
                     label="Email address"
                     name="input"
                     kind="email"
@@ -80,7 +106,7 @@ export default function Edit() {
                         {errors.formError.message}
                     </span>
                 ) : null}
-                <Button name="Upload profile" />
+                <Button name={loading ? "Loading..." : "Upload profile"} />
             </form>
         </Layout>
     );

@@ -70,10 +70,10 @@ export default function Input({
                     >
                         {label}
                     </label>
-                    <div className="relative flex items-center rounded-md shadow-sm">
+                    <div className="relative flex items-center mb-5 rounded-md shadow-sm">
                         <input
                             id={name}
-                            className="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none pl-7 focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+                            className="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-orange-500 focus:border-orange-500"
                             type="text"
                             {...options}
                             {...register}

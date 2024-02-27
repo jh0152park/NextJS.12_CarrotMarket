@@ -61,6 +61,7 @@ export default function Enter() {
 
     useEffect(() => {
         if (tokenData?.isSuccess) {
+            console.log("auth success");
             router.push("/");
         }
     }, [tokenData, router]);

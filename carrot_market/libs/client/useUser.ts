@@ -1,10 +1,16 @@
+import { User } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
+interface IProfileResponse {
+    isSuccess: boolean;
+    profile: User;
+}
+
 export default function useUser() {
     const router = useRouter();
-    const { data, error } = useSWR("/api/users/me");
+    const { data, error } = useSWR<IProfileResponse>("/api/users/me");
 
     useEffect(() => {
         if (data && !data.isSuccess) {

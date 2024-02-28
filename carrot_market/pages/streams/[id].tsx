@@ -1,27 +1,38 @@
 import Layout from "@/components/layout";
 import Message from "@/components/message";
+import { Stream } from "@prisma/client";
+import { useRouter } from "next/router";
+import useSWR from "swr";
+
+interface IStreamResponse {
+    isSuccess: boolean;
+    stream: Stream;
+}
 
 export default function LiveDetail() {
+    const router = useRouter();
+    const { data } = useSWR<IStreamResponse>(
+        router.query.id ? `/api/streams/${router.query.id}` : null
+    );
+
+    if (data && !data.isSuccess) {
+        alert("Dose not exist stream");
+        router.push("/");
+    }
+
     return (
         <Layout canGoBack>
             <div className="px-4 py-10 space-y-4">
                 <div className="pt-4">
                     <div className="w-full rounded-md shadow-sm bg-slate-300 aspect-video" />
                     <h3 className="mt-2 text-2xl font-bold text-gray-900 ">
-                        Galaxy S50
+                        {data?.stream?.name}
                     </h3>
-                    <h4 className="text-xl font-medium text-gray-700">$140</h4>
+                    <h4 className="text-xl font-medium text-gray-700">
+                        ₩{data?.stream?.price.toLocaleString()}
+                    </h4>
                     <p className="my-6 text-base text-gary-700">
-                        My money&apos;s in that office, right? If she start
-                        giving me some bullshit about it ain&apos;t there, and
-                        we got to go someplace else and get it, I&apos;m gonna
-                        shoot you in the head then and there. Then I&apos;m
-                        gonna shoot that bitch in the kneecaps, find out where
-                        my goddamn money is. She gonna tell me too. Hey, look at
-                        me when I&apos;m talking to you, motherfucker. You
-                        listen: we go in there, and that ni**a Winston or
-                        anybody else is in there, you the first motherfucker to
-                        get shot. You understand?
+                        {data?.stream?.description}
                     </p>
                 </div>
 

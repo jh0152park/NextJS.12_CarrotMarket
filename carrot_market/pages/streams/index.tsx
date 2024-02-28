@@ -1,22 +1,35 @@
 import FloatingButton from "@/components/floatingButton";
 import Layout from "@/components/layout";
+import { Stream } from "@prisma/client";
 import Link from "next/link";
+import useSWR from "swr";
+
+interface IStreamsResponse {
+    isSuccess: boolean;
+    streams: Stream[];
+}
 
 export default function Live() {
+    const { data } = useSWR<IStreamsResponse>("/api/streams");
+
     return (
         <Layout hasTabBar title="라이브">
             <div className="px-4 py-10 space-y-4 divide-y-2">
-                {[1, 2, 3, 4, 5].map((_, i) => (
-                    <Link href={`/live/${i}`} legacyBehavior key={i}>
+                {data?.streams.map((stream) => (
+                    <Link
+                        href={`/streams/${stream.id}`}
+                        key={stream.id}
+                        legacyBehavior
+                    >
                         <a className="block px-4 pt-4">
                             <div className="w-full rounded-md shadow-sm bg-slate-300 aspect-video" />
                             <h3 className="mt-2 text-lg font-medium text-gray-700 ">
-                                Let's try potatos!
+                                {stream.name}
                             </h3>
                         </a>
                     </Link>
                 ))}
-                <FloatingButton href="/live/create">
+                <FloatingButton href="/streams/create">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"

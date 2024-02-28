@@ -23,10 +23,11 @@ export default function Create() {
     const router = useRouter();
     const [createStream, { data, loading }] =
         useMutation<ICreateResponse>(`/api/streams`);
-    const { register, handleSubmit } = useForm<ICreateForm>();
+    const { register, handleSubmit, reset } = useForm<ICreateForm>();
 
     function onSubmit(form: ICreateForm | FieldValues) {
         if (loading) return;
+        reset();
         createStream(form);
     }
 
@@ -49,7 +50,10 @@ export default function Create() {
                     kind="text"
                 />
                 <Input
-                    register={register("price", { required: true })}
+                    register={register("price", {
+                        required: true,
+                        valueAsNumber: true,
+                    })}
                     name="price"
                     label="Price"
                     kind="price"

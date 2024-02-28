@@ -1,17 +1,20 @@
 import FloatingButton from "@/components/floatingButton";
 import Layout from "@/components/layout";
+import Link from "next/link";
 
 export default function Live() {
     return (
         <Layout hasTabBar title="라이브">
             <div className="px-4 py-10 space-y-4 divide-y-2">
                 {[1, 2, 3, 4, 5].map((_, i) => (
-                    <div key={i} className="pt-4" px-4>
-                        <div className="w-full rounded-md shadow-sm bg-slate-300 aspect-video" />
-                        <h3 className="mt-2 text-lg font-medium text-gray-700 ">
-                            Let's try potatos!
-                        </h3>
-                    </div>
+                    <Link href={`/live/${i}`} legacyBehavior key={i}>
+                        <a className="block px-4 pt-4">
+                            <div className="w-full rounded-md shadow-sm bg-slate-300 aspect-video" />
+                            <h3 className="mt-2 text-lg font-medium text-gray-700 ">
+                                Let's try potatos!
+                            </h3>
+                        </a>
+                    </Link>
                 ))}
                 <FloatingButton href="/live/create">
                     <svg

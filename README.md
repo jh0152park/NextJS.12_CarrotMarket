@@ -431,3 +431,50 @@ bound와 unbound의 차이는 bound는 현재 컴포넌트, 현재 페이지에�
 
     // key값만 넣어주면 된다
     ```
+
+# ✨ Prisma Seed
+
+테스트를 위해서 여러개의 가짜 데이터가 필요할때 prisma seed를 사용해서 생성할 수 있음
+
+1. `npm install ts-node`
+
+2. prisma 폴더내에 `seed.ts` 파일 생성
+
+```TS
+import { PrismaClient } from "@prisma/client";
+
+const client = new PrismaClient();
+
+async function main() {
+    [...Array.from(Array(500).keys())].forEach(async (item) => {
+        const stream = await client.stream.create({
+            data: {
+                name: String(item),
+                description: String(item),
+                price: item,
+                user: {
+                    connect: {
+                        id: 1,
+                    },
+                },
+            },
+        });
+        console.log(`${item}/500`);
+    });
+}
+
+main()
+    .catch((e) => console.log(e))
+    .finally(() => client.$disconnect());
+
+```
+
+3. package.json에 prisma 추가
+
+```
+"prisma": {
+        "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+    }
+```
+
+4. npx prisma db seed 실행

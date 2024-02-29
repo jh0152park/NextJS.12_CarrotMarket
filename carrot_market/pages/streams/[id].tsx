@@ -39,21 +39,45 @@ export default function LiveDetail() {
         `/api/streams/${router.query.id}/messages`
     );
     const { data, mutate } = useSWR<IStreamResponse>(
-        router.query.id ? `/api/streams/${router.query.id}` : null
+        router.query.id ? `/api/streams/${router.query.id}` : null,
+        {
+            refreshInterval: 1000,
+        }
     );
 
     function onSubmit(form: IMessageForm | FieldValues) {
         if (loading) return;
 
         reset();
-        sendMessage(form);
+        mutate(
+            (prev) =>
+                prev &&
+                ({
+                    ...prev,
+                    stream: {
+                        ...prev.stream,
+                        message: [
+                            ...prev.stream.message,
+                            {
+                                id: Date.now(),
+                                message: form.message,
+                                user: {
+                                    ...user,
+                                },
+                            },
+                        ],
+                    },
+                } as any),
+            false
+        );
+        // sendMessage(form);
     }
 
-    useEffect(() => {
-        if (sendMessageData && sendMessageData.isSuccess) {
-            mutate();
-        }
-    }, [sendMessageData, mutate]);
+    // useEffect(() => {
+    //     if (sendMessageData && sendMessageData.isSuccess) {
+    //         mutate();
+    //     }
+    // }, [sendMessageData, mutate]);
 
     if (data && !data.isSuccess) {
         alert("Dose not exist stream");

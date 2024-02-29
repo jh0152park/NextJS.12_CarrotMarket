@@ -1,9 +1,9 @@
 interface MessageProps {
     message: string;
-    sent: boolean;
+    sent?: boolean;
 }
 
-export default function Message({ message, sent }: MessageProps) {
+export default function Message({ message, sent = false }: MessageProps) {
     if (sent) {
         return (
             <div className="flex flex-row-reverse items-start space-x-2 space-x-reverse">

@@ -1,37 +1,41 @@
 {
-  "name": "carrot_market",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@prisma/client": "^5.9.1",
-    "@types/nodemailer": "^6.4.14",
-    "iron-session": "^6.3.1",
-    "next": "14.1.0",
-    "nodemailer": "^6.9.9",
-    "react": "^18",
-    "react-dom": "^18",
-    "react-hook-form": "^7.50.1",
-    "swr": "^2.2.4",
-    "twilio": "^4.22.0"
-  },
-  "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "autoprefixer": "^10.4.17",
-    "eslint": "^8",
-    "eslint-config-next": "14.1.0",
-    "postcss": "^8.4.33",
-    "prettier": "^3.2.5",
-    "prettier-plugin-tailwindcss": "^0.5.11",
-    "prisma": "^5.9.1",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5"
-  }
+    "name": "carrot_market",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@prisma/client": "^5.9.1",
+        "@types/nodemailer": "^6.4.14",
+        "iron-session": "^6.3.1",
+        "next": "14.1.0",
+        "nodemailer": "^6.9.9",
+        "react": "^18",
+        "react-dom": "^18",
+        "react-hook-form": "^7.50.1",
+        "swr": "^2.2.4",
+        "ts-node": "^10.9.2",
+        "twilio": "^4.22.0"
+    },
+    "devDependencies": {
+        "@types/node": "^20",
+        "@types/react": "^18",
+        "@types/react-dom": "^18",
+        "autoprefixer": "^10.4.17",
+        "eslint": "^8",
+        "eslint-config-next": "14.1.0",
+        "postcss": "^8.4.33",
+        "prettier": "^3.2.5",
+        "prettier-plugin-tailwindcss": "^0.5.11",
+        "prisma": "^5.9.1",
+        "tailwindcss": "^3.4.1",
+        "typescript": "^5"
+    },
+    "prisma": {
+        "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+    }
 }

@@ -1,14 +1,29 @@
 import Layout from "@/components/layout";
 import Message from "@/components/message";
 import useMutation from "@/libs/client/useMutation";
+import useUser from "@/libs/client/useUser";
 import { Stream } from "@prisma/client";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import useSWR from "swr";
 
+interface IStreamMessage {
+    message: string;
+    id: number;
+    user: {
+        id: number;
+        profileImage?: string;
+    };
+}
+
+interface IStreamWithMessage extends Stream {
+    message: IStreamMessage[];
+}
+
 interface IStreamResponse {
     isSuccess: boolean;
-    stream: Stream;
+    stream: IStreamWithMessage;
 }
 
 interface IMessageForm {
@@ -16,13 +31,14 @@ interface IMessageForm {
 }
 
 export default function LiveDetail() {
+    const { user } = useUser();
     const router = useRouter();
     const { register, handleSubmit, reset } = useForm<IMessageForm>();
 
     const [sendMessage, { loading, data: sendMessageData }] = useMutation(
         `/api/streams/${router.query.id}/messages`
     );
-    const { data } = useSWR<IStreamResponse>(
+    const { data, mutate } = useSWR<IStreamResponse>(
         router.query.id ? `/api/streams/${router.query.id}` : null
     );
 
@@ -32,6 +48,12 @@ export default function LiveDetail() {
         reset();
         sendMessage(form);
     }
+
+    useEffect(() => {
+        if (sendMessageData && sendMessageData.isSuccess) {
+            mutate();
+        }
+    }, [sendMessageData, mutate]);
 
     if (data && !data.isSuccess) {
         alert("Dose not exist stream");
@@ -58,15 +80,12 @@ export default function LiveDetail() {
                     Live Chat
                 </h4>
                 <div className="py-10 pb-10 h-[50vh] overflow-y-scroll space-y-4">
-                    {[...new Array(50)].map((_, i) => (
-                        <>
-                            <Message
-                                message="Hi how much are you selling them for ?"
-                                sent={false}
-                            />
-                            <Message message="I want ￦20,000" sent={true} />
-                            <Message message="미쳤어" sent={false} />
-                        </>
+                    {data?.stream.message?.map((message) => (
+                        <Message
+                            key={message.id}
+                            message={message.message}
+                            sent={message.user.id === user?.id}
+                        />
                     ))}
                 </div>
 

@@ -1,7 +1,9 @@
 import Layout from "@/components/layout";
 import Message from "@/components/message";
+import useMutation from "@/libs/client/useMutation";
 import { Stream } from "@prisma/client";
 import { useRouter } from "next/router";
+import { FieldValues, useForm } from "react-hook-form";
 import useSWR from "swr";
 
 interface IStreamResponse {
@@ -9,11 +11,27 @@ interface IStreamResponse {
     stream: Stream;
 }
 
+interface IMessageForm {
+    message: string;
+}
+
 export default function LiveDetail() {
     const router = useRouter();
+    const { register, handleSubmit, reset } = useForm<IMessageForm>();
+
+    const [sendMessage, { loading, data: sendMessageData }] = useMutation(
+        `/api/streams/${router.query.id}/messages`
+    );
     const { data } = useSWR<IStreamResponse>(
         router.query.id ? `/api/streams/${router.query.id}` : null
     );
+
+    function onSubmit(form: IMessageForm | FieldValues) {
+        if (loading) return;
+
+        reset();
+        sendMessage(form);
+    }
 
     if (data && !data.isSuccess) {
         alert("Dose not exist stream");
@@ -53,8 +71,12 @@ export default function LiveDetail() {
                 </div>
 
                 <div className="fixed inset-x-0 left-0 right-0 w-full max-w-md mx-auto bottom-2">
-                    <div className="relative flex items-center">
+                    <form
+                        className="relative flex items-center"
+                        onSubmit={handleSubmit(onSubmit)}
+                    >
                         <input
+                            {...register("message", { required: true })}
                             type="text"
                             className="w-full pr-12 border-gray-300 rounded-full shadow-sm focus:ring-orange-500 focus:out-line-none focus:border-orange-500"
                         />
@@ -63,7 +85,7 @@ export default function LiveDetail() {
                                 &rarr;
                             </button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </Layout>

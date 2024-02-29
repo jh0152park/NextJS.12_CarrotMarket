@@ -436,6 +436,8 @@ bound와 unbound의 차이는 bound는 현재 컴포넌트, 현재 페이지에�
 
 테스트를 위해서 여러개의 가짜 데이터가 필요할때 prisma seed를 사용해서 생성할 수 있음
 
+참고용 [commit](https://github.com/jh0152park/NextJS.12_CarrotMarket/pull/117/commits/3e9a44418c571661b778aec0ea5e52e9838f4443)
+
 1. `npm install ts-node`
 
 2. prisma 폴더내에 `seed.ts` 파일 생성
@@ -478,3 +480,27 @@ main()
 ```
 
 4. npx prisma db seed 실행
+
+# ✨ Prisma Pagination
+
+DB를 읽어올때 한번에 모든 데이터를 읽어들이는거는 장기적으로 볼때 좋지 않을 수 있다.
+
+속도도 느려질 수 있을뿐 아니라 PlanetScale을 사용하면서 free read limit을 넘기면 돈을 내야하기 때문이지,,ㅋㅋ
+
+그래서 GET request를 처리할때 db를 읽을때 prisma에서 제공하는 pagination 기능을 사용하자. (모든 부분에서 사용하는게 맞다고 함)
+
+front에서 get request query로 ?page=1 이런식으로 넘겨주면, 뒷단에서 저 query를 확인해서 얼만큼 take하고 얼만큼 skip할지 정할 수 있다.
+
+그리고 관계형DB에서도 사용이 가능하다.
+
+예시
+
+```TS
+else if (req.method === "GET") {
+    const streams = await client.stream.findMany({
+        take: 10,
+        skip: 20,
+    });
+    res.json({ isSuccess: true, streams });
+}
+```

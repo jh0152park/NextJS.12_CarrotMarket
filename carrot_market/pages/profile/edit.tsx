@@ -3,7 +3,7 @@ import Input from "@/components/input";
 import Layout from "@/components/layout";
 import useMutation from "@/libs/client/useMutation";
 import useUser from "@/libs/client/useUser";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 
 interface IEditProfileForm {
@@ -11,6 +11,7 @@ interface IEditProfileForm {
     phone?: string;
     name?: string;
     formError?: string;
+    profilePhoto?: FileList;
 }
 
 interface IEditProfileResponse {
@@ -20,10 +21,12 @@ interface IEditProfileResponse {
 
 export default function Edit() {
     const { user } = useUser();
+    const [profilePhotoPreview, setProfilePhotoPreview] = useState("");
     const {
         register,
         handleSubmit,
         reset,
+        watch,
         setValue,
         setError,
         formState: { errors },
@@ -31,7 +34,14 @@ export default function Edit() {
     const [editProfile, { data, loading }] =
         useMutation<IEditProfileResponse>("/api/users/me");
 
-    function onSubmit({ email, phone, name }: IEditProfileForm | FieldValues) {
+    const profilePhoto = watch("profilePhoto");
+
+    function onSubmit({
+        email,
+        phone,
+        name,
+        profilePhoto,
+    }: IEditProfileForm | FieldValues) {
         if (loading) return;
 
         if (email === "" && phone === "" && name === "") {
@@ -61,6 +71,13 @@ export default function Edit() {
         }
     }, [data, setError]);
 
+    useEffect(() => {
+        if (profilePhoto && profilePhoto.length > 0) {
+            const file = profilePhoto[0];
+            setProfilePhotoPreview(URL.createObjectURL(file));
+        }
+    }, [profilePhoto]);
+
     return (
         <Layout canGoBack>
             <form
@@ -68,13 +85,21 @@ export default function Edit() {
                 onSubmit={handleSubmit(onSubmit)}
             >
                 <div className="flex items-center mb-5 space-x-3">
-                    <div className="rounded-full w-14 h-14 bg-slate-500" />
+                    {profilePhotoPreview ? (
+                        <img
+                            src={profilePhotoPreview}
+                            className="rounded-full w-14 h-14 bg-slate-500"
+                        />
+                    ) : (
+                        <div className="rounded-full w-14 h-14 bg-slate-500" />
+                    )}
                     <label
                         htmlFor="picture"
                         className="px-3 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-md shadow-sm cursor-pointer focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
                     >
                         Change
                         <input
+                            {...register("profilePhoto")}
                             id="picture"
                             type="file"
                             className="hidden"

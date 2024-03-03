@@ -20,7 +20,7 @@ async function handler(
         });
     } else if (req.method === "POST") {
         const user = req.session.user;
-        const { email, phone, name } = req.body;
+        const { email, phone, name, profilePhotoId } = req.body;
         const currentUser = await client.user.findUnique({
             where: {
                 id: user?.id,
@@ -97,6 +97,16 @@ async function handler(
                 },
                 data: {
                     name,
+                },
+            });
+        }
+        if (profilePhotoId) {
+            await client.user.update({
+                where: {
+                    id: user?.id,
+                },
+                data: {
+                    profileImage: profilePhotoId,
                 },
             });
         }

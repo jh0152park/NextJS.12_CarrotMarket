@@ -50,9 +50,15 @@ export default function Edit() {
                     "Email or Phone Number is required. You need to choose one.",
             });
         }
-        if (profilePhoto && profilePhoto.length > 0) {
-            const cloudflareRequest = await (await fetch(`/api/files`)).json();
-            console.log(cloudflareRequest);
+        if (profilePhoto && profilePhoto.length > 0 && user) {
+            const { id, uploadURL } = await (await fetch(`/api/files`)).json();
+            const form = new FormData();
+
+            form.append("file", profilePhoto[0], user?.id + "");
+            await fetch(uploadURL, {
+                method: "POST",
+                body: form,
+            });
             return;
             // ask for CF URL
             // upload file to CF URL

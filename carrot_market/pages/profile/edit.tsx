@@ -36,7 +36,7 @@ export default function Edit() {
 
     const profilePhoto = watch("profilePhoto");
 
-    function onSubmit({
+    async function onSubmit({
         email,
         phone,
         name,
@@ -50,7 +50,16 @@ export default function Edit() {
                     "Email or Phone Number is required. You need to choose one.",
             });
         }
-        editProfile({ email, phone, name });
+        if (profilePhoto && profilePhoto.length > 0) {
+            const cloudflareRequest = await (await fetch(`/api/files`)).json();
+            console.log(cloudflareRequest);
+            return;
+            // ask for CF URL
+            // upload file to CF URL
+            // editProfile({ email, phone, name, profilePhotoURL });
+        } else {
+            editProfile({ email, phone, name });
+        }
     }
 
     useEffect(() => {

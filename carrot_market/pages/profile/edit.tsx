@@ -51,18 +51,20 @@ export default function Edit() {
             });
         }
         if (profilePhoto && profilePhoto.length > 0 && user) {
-            const { id, uploadURL } = await (await fetch(`/api/files`)).json();
+            const { uploadURL } = await (await fetch(`/api/files`)).json();
             const form = new FormData();
 
             form.append("file", profilePhoto[0], user?.id + "");
-            await fetch(uploadURL, {
-                method: "POST",
-                body: form,
-            });
-            return;
-            // ask for CF URL
-            // upload file to CF URL
-            // editProfile({ email, phone, name, profilePhotoURL });
+            const {
+                result: { id },
+            } = await (
+                await fetch(uploadURL, {
+                    method: "POST",
+                    body: form,
+                })
+            ).json();
+
+            editProfile({ email, phone, name, profilePhotoId: id });
         } else {
             editProfile({ email, phone, name });
         }
@@ -77,6 +79,11 @@ export default function Edit() {
         }
         if (user?.name) {
             setValue("name", user.name);
+        }
+        if (user?.profileImage) {
+            setProfilePhotoPreview(
+                `https://imagedelivery.net/YgDzKoC5M4EUjo9dkUT0aQ/${user?.profileImage}/public`
+            );
         }
     }, [user, setValue]);
 

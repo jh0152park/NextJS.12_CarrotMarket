@@ -6,13 +6,14 @@ import useMutation from "@/libs/client/useMutation";
 import { Product } from "@prisma/client";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 
 interface IUploadProductsForm {
     name: string;
     price: number;
     description: string;
+    photo: FileList;
 }
 
 interface IUploadProductMutation {
@@ -22,13 +23,38 @@ interface IUploadProductMutation {
 
 const Upload: NextPage = () => {
     const router = useRouter();
-    const { register, handleSubmit, reset } = useForm<IUploadProductsForm>();
+    const { register, handleSubmit, watch } = useForm<IUploadProductsForm>();
     const [uploadProduct, { data, loading }] =
         useMutation<IUploadProductMutation>("/api/products");
 
-    function onSubmit(data: FieldValues | IUploadProductsForm) {
+    const [productPreview, setProductPreview] = useState("");
+    const productPhoto = watch("photo");
+
+    async function onSubmit({
+        name,
+        price,
+        description,
+        photo,
+    }: FieldValues | IUploadProductsForm) {
         if (loading) return;
-        uploadProduct(data);
+
+        if (photo && photo.length > 0) {
+            const { uploadURL } = await (await fetch(`/api/files`)).json();
+            const form = new FormData();
+
+            form.append("file", photo[0], name);
+            const {
+                result: { id },
+            } = await (
+                await fetch(uploadURL, {
+                    method: "POST",
+                    body: form,
+                })
+            ).json();
+            uploadProduct({ name, price, description, photo, photoId: id });
+        } else {
+            uploadProduct({ name, price, description, photo });
+        }
     }
 
     useEffect(() => {
@@ -37,6 +63,13 @@ const Upload: NextPage = () => {
         }
     }, [data]);
 
+    useEffect(() => {
+        if (productPhoto && productPhoto.length > 0) {
+            const file = productPhoto[0];
+            setProductPreview(URL.createObjectURL(file));
+        }
+    }, [productPhoto]);
+
     return (
         <Layout canGoBack>
             <form
@@ -44,24 +77,36 @@ const Upload: NextPage = () => {
                 onSubmit={handleSubmit(onSubmit)}
             >
                 <div>
-                    <label className="flex items-center justify-center w-full h-48 text-gray-600 border-2 border-gray-300 border-dashed rounded-md hover:text-orange-500 hover:border-orange-500">
-                        <svg
-                            className="w-12 h-12 cursor-pointer"
-                            stroke="currentColor"
-                            fill="none"
-                            viewBox="0 0 48 48"
-                            aria-hidden="true"
-                        >
-                            <path
-                                d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                                strokeWidth={2}
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            />
-                        </svg>
+                    {productPreview ? (
+                        <img
+                            src={productPreview}
+                            className="w-full h-48 text-gray-600 rounded-md aspect-video"
+                        />
+                    ) : (
+                        <label className="flex items-center justify-center w-full h-48 text-gray-600 border-2 border-gray-300 border-dashed rounded-md hover:text-orange-500 hover:border-orange-500">
+                            <svg
+                                className="w-12 h-12 cursor-pointer"
+                                stroke="currentColor"
+                                fill="none"
+                                viewBox="0 0 48 48"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                    strokeWidth={2}
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                            </svg>
 
-                        <input className="hidden" type="file" />
-                    </label>
+                            <input
+                                {...register("photo")}
+                                className="hidden"
+                                type="file"
+                                accept="image/*"
+                            />
+                        </label>
+                    )}
                 </div>
 
                 <Input

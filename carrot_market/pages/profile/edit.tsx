@@ -82,7 +82,7 @@ export default function Edit() {
         }
         if (user?.profileImage) {
             setProfilePhotoPreview(
-                `https://imagedelivery.net/YgDzKoC5M4EUjo9dkUT0aQ/${user?.profileImage}/public`
+                `https://imagedelivery.net/YgDzKoC5M4EUjo9dkUT0aQ/${user?.profileImage}/profileImage`
             );
         }
     }, [user, setValue]);

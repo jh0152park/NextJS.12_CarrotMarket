@@ -25,7 +25,7 @@
 
 Tailwind is a utility-first CSS framework(not a library) packed with classes. And utility mean is tailwind hass a lot of classes names. Litrally tailwind is huge, fat, massive css class name bundle
 
-### Tiny tip🍯
+### Tiny tip 🍯
 
 Basically the style of tailwind is a applies from `small size to large size(mobile to pc screen)`
 

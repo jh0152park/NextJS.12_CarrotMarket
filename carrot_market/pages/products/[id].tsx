@@ -5,6 +5,7 @@ import useUser from "@/libs/client/useUser";
 import { cls } from "@/libs/client/utils";
 import { Product } from "@prisma/client";
 import type { NextPage } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import useSWR, { useSWRConfig } from "swr";
@@ -29,7 +30,7 @@ const ItemDetail: NextPage = () => {
     const { user, isLoading } = useUser();
     const { mutate } = useSWRConfig();
     const { data, mutate: boundMutate } = useSWR<IProductResponse>(
-        router.query ? `/api/products/${router.query.id}` : null
+        router.query.id ? `/api/products/${router.query.id}` : null
     );
     const [toggleFavorite] = useMutation(
         `/api/products/${router.query.id}/favorite`
@@ -50,7 +51,10 @@ const ItemDetail: NextPage = () => {
                         className="h-96 bg-slate-300"
                     />
                     <div className="flex items-center py-3 space-x-3 border-t border-b cursor-pointer">
-                        <img
+                        <Image
+                            width={48}
+                            height={48}
+                            alt="profilePhoto"
                             src={`https://imagedelivery.net/YgDzKoC5M4EUjo9dkUT0aQ/${data?.product.user.profileImage}/profileImage`}
                             className="w-12 h-12 rounded-full bg-slate-300"
                         />

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 interface ProductSummaryProps {
@@ -7,6 +8,7 @@ interface ProductSummaryProps {
     like: number;
     message?: number;
     id: number;
+    image: string;
 }
 
 export default function ProductSummary({
@@ -16,12 +18,20 @@ export default function ProductSummary({
     like,
     message,
     id,
+    image,
 }: ProductSummaryProps) {
+    console.log(image);
     return (
         <Link href={`/products/${id}`} legacyBehavior>
             <a className="flex justify-between px-4 pb-4 border-b cursor-pointer">
                 <div className="flex space-x-4">
-                    <div className="w-20 h-20 bg-gray-400 rounded-md" />
+                    <div className="w-20 h-20 bg-gray-400 rounded-md relative overflow-hidden">
+                        <Image
+                            layout="fill"
+                            src={`https://imagedelivery.net/YgDzKoC5M4EUjo9dkUT0aQ/${image}/public`}
+                            alt="product"
+                        />
+                    </div>
                     <div className="flex flex-col pt-2">
                         <h3 className="text-sm font-medium text-gray-900">
                             {product}
@@ -30,7 +40,7 @@ export default function ProductSummary({
                             {description}
                         </span>
                         <span className="mt-1 font-medium text-gary-900">
-                            ${price}
+                            ${price.toLocaleString()}
                         </span>
                     </div>
                 </div>

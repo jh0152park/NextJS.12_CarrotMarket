@@ -35,6 +35,7 @@ export default function Home() {
                         id={product.id}
                         key={product.id}
                         product={product.name}
+                        image={product.image}
                         description={product.description}
                         price={product.price}
                         like={product._count.favorite}

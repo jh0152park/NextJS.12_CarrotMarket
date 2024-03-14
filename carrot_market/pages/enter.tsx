@@ -7,7 +7,9 @@ import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
 
-const BS = dynamic(() => import("@/components/bs"));
+const BS = dynamic(() => import("@/components/bs"), {
+    loading: () => <span>Loading~</span>,
+});
 
 interface IEnterForm {
     email?: string;

@@ -5,6 +5,9 @@ import { cls } from "@/libs/client/utils";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
+import dynamic from "next/dynamic";
+
+const BS = dynamic(() => import("@/components/bs"));
 
 interface IEnterForm {
     email?: string;
@@ -135,15 +138,18 @@ export default function Enter() {
                                     required
                                 />
                             ) : (
-                                <Input
-                                    register={register("phoneNumber", {
-                                        required: true,
-                                    })}
-                                    label="Phone number"
-                                    name="input"
-                                    kind="phone"
-                                    required
-                                />
+                                <>
+                                    <BS />
+                                    <Input
+                                        register={register("phoneNumber", {
+                                            required: true,
+                                        })}
+                                        label="Phone number"
+                                        name="input"
+                                        kind="phone"
+                                        required
+                                    />
+                                </>
                             )}
                             <Button
                                 name={

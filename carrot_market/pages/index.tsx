@@ -5,7 +5,7 @@ import useUser from "@/libs/client/useUser";
 import { Product } from "@prisma/client";
 import { NextPage } from "next";
 import Head from "next/head";
-import useSWR from "swr";
+import useSWR, { SWRConfig } from "swr";
 import client from "../libs/server/client";
 
 export interface IProduct extends Product {
@@ -20,9 +20,9 @@ interface IProductResponse {
     products: IProduct[];
 }
 
-const Home: NextPage<{ products: IProduct[] }> = ({ products }) => {
+const Home = () => {
     const { user, isLoading } = useUser();
-    // const { data } = useSWR<IProductResponse>("/api/products");
+    const { data } = useSWR<IProductResponse>("/api/products");
 
     return (
         <Layout title="홈" hasTabBar>
@@ -30,7 +30,7 @@ const Home: NextPage<{ products: IProduct[] }> = ({ products }) => {
                 <title>Home</title>
             </Head>
             <div className="flex flex-col py-10 space-y-5">
-                {products?.map((product) => (
+                {data?.products?.map((product) => (
                     <ProductSummary
                         id={product.id}
                         key={product.id}
@@ -64,10 +64,25 @@ const Home: NextPage<{ products: IProduct[] }> = ({ products }) => {
     );
 };
 
+const Page: NextPage<{ products: IProduct[] }> = ({ products }) => {
+    return (
+        <SWRConfig
+            value={{
+                fallback: {
+                    "/api/products": {
+                        isSuccess: true,
+                        products,
+                    },
+                },
+            }}
+        >
+            <Home />
+        </SWRConfig>
+    );
+};
+
 export async function getServerSideProps() {
     const products = await client.product.findMany({});
-
-    console.log(products);
 
     return {
         props: {
@@ -76,4 +91,4 @@ export async function getServerSideProps() {
     };
 }
 
-export default Home;
+export default Page;

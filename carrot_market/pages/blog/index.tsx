@@ -39,7 +39,7 @@ export async function getStaticProps() {
     const posts = readdirSync("./posts").map((file) => {
         const content = readFileSync(`./posts/${file}`, "utf-8");
         const [slug, _] = file.split(".");
-        return { ...matter(content).data, slug: file };
+        return { ...matter(content).data, slug: slug };
     });
     return {
         props: { posts },

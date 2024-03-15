@@ -8,7 +8,7 @@ interface ProductSummaryProps {
     like: number;
     message?: number;
     id: number;
-    image: string;
+    image?: string;
 }
 
 export default function ProductSummary({

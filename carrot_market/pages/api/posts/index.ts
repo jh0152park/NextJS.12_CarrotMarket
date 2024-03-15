@@ -27,6 +27,8 @@ async function handler(
             },
         });
 
+        await res.revalidate("/community");
+
         res.json({
             isSuccess: true,
             post: post,

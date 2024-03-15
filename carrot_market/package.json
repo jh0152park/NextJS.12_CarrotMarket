@@ -18,9 +18,12 @@
         "react": "^18",
         "react-dom": "^18",
         "react-hook-form": "^7.50.1",
+        "remark-html": "^15.0.1",
+        "remark-parse": "^10.0.1",
         "swr": "^2.2.4",
         "ts-node": "^10.9.2",
-        "twilio": "^4.22.0"
+        "twilio": "^4.22.0",
+        "unified": "^10.1.1"
     },
     "devDependencies": {
         "@types/node": "^20",

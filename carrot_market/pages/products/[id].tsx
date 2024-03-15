@@ -4,11 +4,12 @@ import useMutation from "@/libs/client/useMutation";
 import useUser from "@/libs/client/useUser";
 import { cls } from "@/libs/client/utils";
 import { Product } from "@prisma/client";
-import type { NextPage } from "next";
+import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import useSWR, { useSWRConfig } from "swr";
+import client from "../../libs/server/client";
 
 interface IProduct extends Product {
     user: {
@@ -25,22 +26,26 @@ interface IProductResponse {
     isLiked: boolean;
 }
 
-const ItemDetail: NextPage = () => {
+const ItemDetail: NextPage<IProductResponse> = ({
+    product,
+    relatedProduct,
+    isLiked,
+}) => {
     const router = useRouter();
     const { user, isLoading } = useUser();
     const { mutate } = useSWRConfig();
-    const { data, mutate: boundMutate } = useSWR<IProductResponse>(
-        router.query.id ? `/api/products/${router.query.id}` : null
-    );
+    // const { data, mutate: boundMutate } = useSWR<IProductResponse>(
+    //     router.query.id ? `/api/products/${router.query.id}` : null
+    // );
     const [toggleFavorite] = useMutation(
         `/api/products/${router.query.id}/favorite`
     );
 
-    function onFavoriteClick() {
-        if (!data) return;
-        toggleFavorite({});
-        boundMutate({ ...data, isLiked: !data.isLiked }, false);
-    }
+    // function onFavoriteClick() {
+    //     if (!data) return;
+    //     toggleFavorite({});
+    //     boundMutate({ ...data, isLiked: !data.isLiked }, false);
+    // }
 
     return (
         <Layout canGoBack>
@@ -50,7 +55,7 @@ const ItemDetail: NextPage = () => {
                         <Image
                             layout="fill"
                             alt="productImage"
-                            src={`https://imagedelivery.net/YgDzKoC5M4EUjo9dkUT0aQ/${data?.product.image}/public`}
+                            src={`https://imagedelivery.net/YgDzKoC5M4EUjo9dkUT0aQ/${product.image}/public`}
                             className="bg-slate-300 object-cover"
                         />
                     </div>
@@ -59,15 +64,15 @@ const ItemDetail: NextPage = () => {
                             width={48}
                             height={48}
                             alt="profilePhoto"
-                            src={`https://imagedelivery.net/YgDzKoC5M4EUjo9dkUT0aQ/${data?.product.user.profileImage}/profileImage`}
+                            src={`https://imagedelivery.net/YgDzKoC5M4EUjo9dkUT0aQ/${product.user.profileImage}/profileImage`}
                             className="w-12 h-12 rounded-full bg-slate-300"
                         />
                         <div>
                             <p className="text-sm font-medium text-gray-700">
-                                {data?.product.user.name}
+                                {product.user.name}
                             </p>
                             <Link
-                                href={`/users/profiles/${data?.product.user.id}`}
+                                href={`/users/profiles/${product.user.id}`}
                                 legacyBehavior
                             >
                                 <a className="text-xs font-medium text-gray-700">
@@ -78,26 +83,26 @@ const ItemDetail: NextPage = () => {
                     </div>
                     <div className="mt-5">
                         <h1 className="text-3xl font-bold text-gray-900">
-                            {data?.product?.name}
+                            {product?.name}
                         </h1>
                         <span className="mt-3 text-3xl text-gray-900">
-                            {data?.product?.price}
+                            {product?.price}
                         </span>
                         <p className="my-6 text-base text-gary-700">
-                            {data?.product?.description}
+                            {product?.description}
                         </p>
                         <div className="flex items-center justify-between space-x-2">
                             <Button name="Talk to seller" />
                             <button
-                                onClick={onFavoriteClick}
+                                // onClick={onFavoriteClick}
                                 className={cls(
                                     "flex items-center justify-center p-3  transition-all rounded-md",
-                                    data?.isLiked
+                                    isLiked
                                         ? "hover:bg-red-100 hover:text-red-500  text-red-500"
                                         : "hover:bg-gray-100 hover:text-gray-500  text-gray-400"
                                 )}
                             >
-                                {data?.isLiked ? (
+                                {isLiked ? (
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24"
@@ -132,7 +137,7 @@ const ItemDetail: NextPage = () => {
                         Similar items
                     </h2>
                     <div className="grid grid-cols-2 gap-4 mt-6">
-                        {data?.relatedProduct.map((product) => (
+                        {relatedProduct.map((product) => (
                             <Link
                                 href={`/products/${product.id}`}
                                 legacyBehavior
@@ -154,6 +159,61 @@ const ItemDetail: NextPage = () => {
             </div>
         </Layout>
     );
+};
+
+export const getStaticPaths: GetStaticPaths = () => {
+    return {
+        paths: [],
+        fallback: "blocking",
+    };
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
+    if (!context?.params?.id) {
+        return { props: {} };
+    }
+
+    const product = await client.product.findUnique({
+        where: {
+            id: Number(context.params?.id),
+        },
+        include: {
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                    profileImage: true,
+                },
+            },
+        },
+    });
+
+    const related = product?.name.split(" ").map((word) => ({
+        name: {
+            contains: word,
+        },
+    }));
+
+    const relatedProduct = await client.product.findMany({
+        where: {
+            OR: related,
+            AND: {
+                id: {
+                    not: product?.id,
+                },
+            },
+        },
+    });
+
+    const isLiked = false;
+
+    return {
+        props: {
+            isLiked: JSON.parse(JSON.stringify(isLiked)),
+            product: JSON.parse(JSON.stringify(product)),
+            relatedProduct: JSON.parse(JSON.stringify(relatedProduct)),
+        },
+    };
 };
 
 export default ItemDetail;

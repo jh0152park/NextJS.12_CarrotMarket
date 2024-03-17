@@ -7,6 +7,8 @@ import type { NextPage, NextPageContext } from "next";
 import Link from "next/link";
 import useSWR, { SWRConfig } from "swr";
 import client from "../../libs/server/client";
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
 
 interface ReviewWithUser extends Review {
     createdBy: User;
@@ -159,36 +161,29 @@ const Profile: NextPage = () => {
     );
 };
 
-const Page: NextPage<{ profile: User }> = ({ profile }) => {
+const Page: NextPage = () => {
     return (
-        <SWRConfig
-            value={{
-                fallback: {
-                    "/api/users/me": {
-                        isSuccess: true,
-                        profile,
-                    },
-                },
-            }}
-        >
-            <Profile />
+        <SWRConfig value={{ suspense: true }}>
+            <Suspense fallback={<span>Loading</span>}>
+                <Profile />
+            </Suspense>
         </SWRConfig>
     );
 };
 
-export const getServerSideProps = withSsrSesstion(async function ({
-    req,
-}: NextPageContext) {
-    const profile = await client.user.findUnique({
-        where: {
-            id: req?.session.user?.id,
-        },
-    });
-    return {
-        props: {
-            profile: JSON.parse(JSON.stringify(profile)),
-        },
-    };
-});
+// export const getServerSideProps = withSsrSesstion(async function ({
+//     req,
+// }: NextPageContext) {
+//     const profile = await client.user.findUnique({
+//         where: {
+//             id: req?.session.user?.id,
+//         },
+//     });
+//     return {
+//         props: {
+//             profile: JSON.parse(JSON.stringify(profile)),
+//         },
+//     };
+// });
 
-export default Page;
+export default dynamic(async () => Page, { ssr: false });
